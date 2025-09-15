@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Fixed Theme Test - Learning Management System</title>
+    <link rel="stylesheet" href="Assest/css/bootstrap-5.2.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Assest/fontawesome-free-6.7.2-web/css/all.min.css">
+    <link rel="stylesheet" href="Assest/css/AdminMaster.css">
+    
+    <style>
+        /* Custom Theme Test Styles */
+        :root {
+            /* Custom Theme Colors */
+            --primary-color: #2c2b7c;
+            --accent-color: #ee1c24;
+            --background-color: #fefefe;
+            --text-color: #000000;
+            
+            /* Derived Theme Colors */
+            --primary-light: #3d3c8f;
+            --primary-dark: #1f1e5a;
+            --accent-light: #f04752;
+            --accent-dark: #c41520;
+            
+            /* Neutral Colors */
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --border-gray: #e0e0e0;
+            --medium-gray: #666666;
+            --dark-gray: #333333;
+            
+            /* Status Colors */
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: var(--accent-color);
+            --info-color: var(--primary-color);
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+        }
+
+        .theme-demo {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .color-card {
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-sample {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--border-gray);
+        }
+
+        .primary-sample { background-color: var(--primary-color); }
+        .accent-sample { background-color: var(--accent-color); }
+        .success-sample { background-color: var(--success-color); }
+        .warning-sample { background-color: var(--warning-color); }
+
+        .component-demo {
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .demo-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-color);
+            border: none;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-accent-custom {
+            background: var(--accent-color);
+            border: none;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-accent-custom:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+        }
+
+        .demo-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .demo-card {
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .theme-info {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .theme-specs {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .spec-value {
+            font-family: 'Courier New', monospace;
+            color: var(--medium-gray);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-demo">
+        <div class="theme-info">
+            <h1><i class="fas fa-palette me-3"></i>Custom Fixed Theme</h1>
+            <p class="mb-0">University of Education, Winneba - Learning Management System</p>
+            <p class="mb-0">Theme: #fefefe, #2c2b7c, #ee1c24, #000000</p>
+        </div>
+
+        <div class="component-demo">
+            <h2>Color Palette</h2>
+            <div class="color-palette">
+                <div class="color-card">
+                    <div class="color-sample primary-sample"></div>
+                    <h5>Primary Color</h5>
+                    <p class="mb-0">#2c2b7c</p>
+                    <small class="text-muted">Deep Blue</small>
+                </div>
+                <div class="color-card">
+                    <div class="color-sample accent-sample"></div>
+                    <h5>Accent Color</h5>
+                    <p class="mb-0">#ee1c24</p>
+                    <small class="text-muted">Red</small>
+                </div>
+                <div class="color-card">
+                    <div class="color-sample success-sample"></div>
+                    <h5>Success Color</h5>
+                    <p class="mb-0">#28a745</p>
+                    <small class="text-muted">Green</small>
+                </div>
+                <div class="color-card">
+                    <div class="color-sample warning-sample"></div>
+                    <h5>Warning Color</h5>
+                    <p class="mb-0">#ffc107</p>
+                    <small class="text-muted">Yellow</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="component-demo">
+            <div class="demo-header">
+                <h3><i class="fas fa-cogs me-2"></i>Component Showcase</h3>
+                <p class="mb-0">Demonstrating theme integration across UI components</p>
+            </div>
+
+            <div class="demo-buttons">
+                <button class="btn btn-primary-custom">
+                    <i class="fas fa-user me-2"></i>Primary Button
+                </button>
+                <button class="btn btn-accent-custom">
+                    <i class="fas fa-plus me-2"></i>Accent Button
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <i class="fas fa-cog me-2"></i>Secondary Button
+                </button>
+            </div>
+
+            <div class="demo-cards">
+                <div class="demo-card">
+                    <h5><i class="fas fa-users text-primary me-2"></i>User Management</h5>
+                    <p class="text-muted">Manage students and teachers with consistent styling.</p>
+                    <span class="badge bg-primary">Active</span>
+                </div>
+                <div class="demo-card">
+                    <h5><i class="fas fa-graduation-cap me-2" style="color: var(--accent-color);"></i>Course Management</h5>
+                    <p class="text-muted">Handle course creation and enrollment efficiently.</p>
+                    <span class="badge" style="background: var(--accent-color);">Featured</span>
+                </div>
+                <div class="demo-card">
+                    <h5><i class="fas fa-chart-line text-success me-2"></i>Analytics Dashboard</h5>
+                    <p class="text-muted">View comprehensive reports and statistics.</p>
+                    <span class="badge bg-success">Updated</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="component-demo">
+            <h3>Theme Specifications</h3>
+            <div class="theme-specs">
+                <div class="spec-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Background:</span>
+                        <span class="spec-value">#fefefe</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Primary:</span>
+                        <span class="spec-value">#2c2b7c</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Accent:</span>
+                        <span class="spec-value">#ee1c24</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Text:</span>
+                        <span class="spec-value">#000000</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Light Gray:</span>
+                        <span class="spec-value">#f8f9fa</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Border Gray:</span>
+                        <span class="spec-value">#e0e0e0</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Success:</span>
+                        <span class="spec-value">#28a745</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Warning:</span>
+                        <span class="spec-value">#ffc107</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Fixed theme successfully implemented - No dark/light mode switching
+            </p>
+        </div>
+    </div>
+
+    <script src="Assest/css/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Custom Fixed Theme Test Page Loaded');
+            console.log('Theme Colors Applied:', {
+                primary: '#2c2b7c',
+                accent: '#ee1c24',
+                background: '#fefefe',
+                text: '#000000'
+            });
+        });
+    </script>
+</body>
+</html>

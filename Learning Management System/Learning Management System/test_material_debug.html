@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Material Page Debug Test</title>
+    <style>
+        .course-details {
+            display: none;
+            background: yellow;
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid red;
+        }
+        
+        .course-details.view-active {
+            display: block !important;
+        }
+        
+        .view-active {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Testing Course Details View Toggle</h1>
+    
+    <button onclick="testToggle()">Click Course (Test Toggle)</button>
+    
+    <div id="courseDetailsView" class="course-details">
+        <h2>Course Details View</h2>
+        <p>This should show when you click the course button above.</p>
+        <div id="sectionsGrid">
+            <p>Sections would appear here...</p>
+        </div>
+    </div>
+
+    <script>
+        function testToggle() {
+            console.log('Testing toggle...');
+            const detailsView = document.getElementById('courseDetailsView');
+            console.log('Before toggle - classes:', detailsView.className);
+            console.log('Before toggle - display style:', window.getComputedStyle(detailsView).display);
+            
+            detailsView.classList.add('view-active');
+            
+            console.log('After toggle - classes:', detailsView.className);
+            console.log('After toggle - display style:', window.getComputedStyle(detailsView).display);
+        }
+    </script>
+</body>
+</html>

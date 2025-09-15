@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Design Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap-5.2.3-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fontawesome-free-6.7.2-web/css/all.min.css" />
+    <style>
+        /* CSS Variables matching Admin.Master */
+        :root {
+            /* Primary Colors */
+            --primary-blue: #667eea;
+            --primary-blue-rgb: 102, 126, 234;
+            --secondary-blue: #764ba2;
+            --secondary-blue-rgb: 118, 75, 162;
+            
+            /* Neutral Colors */
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Status Colors */
+            --success-green: #10b981;
+            --success-green-rgb: 16, 185, 129;
+            --warning-orange: #f59e0b;
+            --warning-orange-rgb: 245, 158, 11;
+            --danger-red: #ef4444;
+            --danger-red-rgb: 239, 68, 68;
+            --info-blue: #3b82f6;
+            --info-blue-rgb: 59, 130, 246;
+            
+            /* Dark Theme Colors */
+            --dark-bg: #0f172a;
+            --dark-surface: #1e293b;
+            --dark-border: #334155;
+            --dark-text: #f1f5f9;
+            --dark-text-secondary: #cbd5e1;
+            --dark-primary: #818cf8;
+            --dark-secondary: #a855f7;
+            --dark-hover: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* User Management Page Styles */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-header p {
+            margin: 0.75rem 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .user-controls {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-tabs {
+            background: var(--gray-50);
+            padding: 1.5rem 2rem;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 1px solid var(--gray-200);
+            margin: -2rem -2rem 2rem -2rem;
+        }
+
+        .nav-pills .nav-link {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            margin-right: 1rem;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(var(--primary-blue-rgb), 0.3);
+        }
+
+        .search-add-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 450px;
+        }
+
+        .search-box input {
+            padding: 0.875rem 1rem 0.875rem 3.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 25px;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(var(--primary-blue-rgb), 0.25);
+            outline: none;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            font-size: 1.1rem;
+        }
+
+        .add-user-btn {
+            background: linear-gradient(135deg, var(--success-green) 0%, #16a085 100%);
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(var(--success-green-rgb), 0.3);
+        }
+
+        .add-user-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(var(--success-green-rgb), 0.4);
+            color: white;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .user-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .user-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+            margin-right: 1rem;
+        }
+
+        .user-basic-info h5 {
+            margin: 0;
+            color: var(--gray-800);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-basic-info .email {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .user-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 0.625rem 0.75rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+        }
+
+        .btn-edit {
+            background: var(--warning-orange);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #e67e22;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: var(--danger-red);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-view {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: var(--secondary-blue);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .course-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+        }
+
+        .course-tag {
+            background: var(--primary-blue);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-theme .page-header {
+            background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
+        }
+
+        body.dark-theme .user-controls,
+        body.dark-theme .user-card {
+            background: var(--dark-surface);
+            border-color: var(--dark-border);
+        }
+
+        body.dark-theme .user-tabs {
+            background: var(--dark-hover);
+        }
+
+        body.dark-theme .search-box input {
+            background: var(--dark-surface);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .users-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .search-add-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                max-width: none;
+                margin-bottom: 1rem;
+            }
+
+            .nav-pills .nav-link {
+                margin-right: 0.5rem;
+                margin-bottom: 0.5rem;
+                padding: 0.625rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .user-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-users"></i>
+                User Management
+            </h1>
+            <p>Manage students and teachers in your learning management system - Admin.Master Design Integration</p>
+        </div>
+
+        <!-- User Management Container -->
+        <div class="user-controls">
+            <!-- User Type Tabs -->
+            <div class="user-tabs">
+                <ul class="nav nav-pills" id="userTypeTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="students-tab" data-bs-toggle="pill" 
+                                data-bs-target="#students" type="button" role="tab">
+                            <i class="fas fa-user-graduate me-2"></i>
+                            Students
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="teachers-tab" data-bs-toggle="pill" 
+                                data-bs-target="#teachers" type="button" role="tab">
+                            <i class="fas fa-chalkboard-teacher me-2"></i>
+                            Teachers
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Search and Add Controls -->
+            <div class="search-add-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search users by name, email, or department...">
+                </div>
+                <button class="btn add-user-btn">
+                    <i class="fas fa-plus me-2"></i>
+                    Add New User
+                </button>
+            </div>
+
+            <!-- Sample User Cards -->
+            <div class="users-grid">
+                <!-- Student Card 1 -->
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <img src="https://via.placeholder.com/64x64/667eea/ffffff?text=BO" alt="Benedict Osei" class="user-avatar">
+                        <div class="user-basic-info">
+                            <h5>Benedict Amankwa Osei</h5>
+                            <div class="email">benedict.osei@university.edu.gh</div>
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">+233 54 444 4333</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Department:</span>
+                            <span class="detail-value">Computer Science</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Level:</span>
+                            <span class="detail-value">Level 300</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Courses:</span>
+                            <span class="detail-value">
+                                <div class="course-tags">
+                                    <span class="course-tag">CS101</span>
+                                    <span class="course-tag">MATH201</span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn btn-action btn-view">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-action btn-edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-action btn-delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Teacher Card -->
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <img src="https://via.placeholder.com/64x64/1abc9c/ffffff?text=KA" alt="Dr. Kwame Asante" class="user-avatar">
+                        <div class="user-basic-info">
+                            <h5>Dr. Kwame Asante</h5>
+                            <div class="email">kwame.asante@university.edu.gh</div>
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">+233 50 123 4567</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Department:</span>
+                            <span class="detail-value">Computer Science</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Employee ID:</span>
+                            <span class="detail-value">EMP001</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Courses:</span>
+                            <span class="detail-value">
+                                <div class="course-tags">
+                                    <span class="course-tag">CS101</span>
+                                    <span class="course-tag">CS301</span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn btn-action btn-view">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-action btn-edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-action btn-delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Student Card 2 -->
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <img src="https://via.placeholder.com/64x64/e74c3c/ffffff?text=AM" alt="Ama Mensah" class="user-avatar">
+                        <div class="user-basic-info">
+                            <h5>Ama Osei Mensah</h5>
+                            <div class="email">ama.mensah@university.edu.gh</div>
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">+233 55 987 6543</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Department:</span>
+                            <span class="detail-value">Mathematics</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Level:</span>
+                            <span class="detail-value">Level 200</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Courses:</span>
+                            <span class="detail-value">
+                                <div class="course-tags">
+                                    <span class="course-tag">MATH201</span>
+                                    <span class="course-tag">ENG101</span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn btn-action btn-view">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-action btn-edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-action btn-delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('admin-theme', 'dark');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('admin-theme', 'light');
+            }
+        }
+
+        // Initialize theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('admin-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        });
+    </script>
+</body>
+</html>

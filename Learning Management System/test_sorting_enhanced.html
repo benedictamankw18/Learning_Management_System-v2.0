@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Table Sorting Test - Enhanced</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .course-code-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .department-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+        
+        .sortable:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .table th {
+            vertical-align: middle;
+        }
+        
+        .test-controls {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .test-log {
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2><i class="fas fa-sort me-2"></i>Course Table Sorting Test - Enhanced</h2>
+        
+        <div class="test-controls">
+            <h4><i class="fas fa-vial me-2"></i>Test Controls</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-light me-2" onclick="testSorting()">
+                        <i class="fas fa-play me-1"></i>Auto Test All Columns
+                    </button>
+                    <button class="btn btn-outline-light me-2" onclick="resetTable()">
+                        <i class="fas fa-refresh me-1"></i>Reset Table
+                    </button>
+                    <button class="btn btn-outline-light" onclick="clearLog()">
+                        <i class="fas fa-trash me-1"></i>Clear Log
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-end">
+                        <small><strong>Status:</strong> <span id="testStatus">Ready</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-table me-2"></i>Course Management Table</h5>
+                <small class="text-muted">Click any column header to test sorting functionality</small>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover" id="courseTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th width="50">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAll">
+                                </div>
+                            </th>
+                            <th onclick="sortTable(1)" class="sortable">
+                                <div class="d-flex align-items-center">
+                                    Course Code <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th onclick="sortTable(2)" class="sortable">
+                                <div class="d-flex align-items-center">
+                                    Course Name <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th onclick="sortTable(3)" class="sortable">
+                                <div class="d-flex align-items-center">
+                                    Department <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th onclick="sortTable(4)" class="sortable text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    Credits <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th onclick="sortTable(5)" class="sortable">
+                                <div class="d-flex align-items-center">
+                                    Instructor <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th onclick="sortTable(6)" class="sortable text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    Enrolled <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th onclick="sortTable(7)" class="sortable text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    Status <i class="fa fa-sort ms-1 text-muted"></i>
+                                </div>
+                            </th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseTableBody">
+                        <!-- Sample data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6><i class="fas fa-clipboard-list me-2"></i>Test Log</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="testLog" class="test-log bg-light p-2 rounded">
+                            <div class="text-muted">Test log will appear here...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6><i class="fas fa-chart-bar me-2"></i>Test Results</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="testResults">
+                            <div class="text-muted">No tests run yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enhanced Table Sorting Functionality (Copied from Course.aspx)
+        let sortDirection = {};
+        
+        function sortTable(columnIndex) {
+            try {
+                logMessage(`🔍 Starting sort for column ${columnIndex}`, 'info');
+                
+                const table = document.getElementById('courseTable');
+                if (!table) {
+                    logMessage('❌ Course table not found', 'error');
+                    return;
+                }
+                
+                const tbody = table.querySelector('tbody');
+                if (!tbody) {
+                    logMessage('❌ Table body not found', 'error');
+                    return;
+                }
+                
+                // Get all data rows (exclude loading and no-data rows)
+                const rows = Array.from(tbody.querySelectorAll('tr:not(.loading-row):not(.no-data-row)'));
+                logMessage(`📊 Found ${rows.length} rows to sort`, 'info');
+                
+                if (rows.length === 0) {
+                    logMessage('⚠️ No rows to sort', 'warning');
+                    showToast('No data available to sort', 'warning');
+                    return;
+                }
+                
+                // Determine sort direction
+                const currentDirection = sortDirection[columnIndex] || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+                sortDirection[columnIndex] = newDirection;
+                
+                logMessage(`🔄 Sorting direction: ${currentDirection} → ${newDirection}`, 'info');
+                
+                // Update sort icons
+                document.querySelectorAll('.sortable i').forEach(icon => {
+                    icon.className = 'fa fa-sort ms-1 text-muted';
+                });
+                
+                const headerIcon = document.querySelector(`[onclick*="sortTable(${columnIndex})"] i`);
+                if (headerIcon) {
+                    headerIcon.className = `fa fa-sort-${newDirection === 'asc' ? 'up' : 'down'} ms-1 text-primary`;
+                    logMessage(`🎯 Updated sort icon for column ${columnIndex}`, 'success');
+                } else {
+                    logMessage(`⚠️ Sort icon not found for column ${columnIndex}`, 'warning');
+                }
+                
+                // Validate column index
+                if (columnIndex < 0 || columnIndex >= rows[0].cells.length) {
+                    logMessage(`❌ Invalid column index: ${columnIndex}`, 'error');
+                    showToast(`Invalid column index: ${columnIndex}`, 'error');
+                    return;
+                }
+                
+                // Get initial order for comparison
+                const initialOrder = rows.map(row => row.cells[columnIndex].textContent.trim()).slice(0, 3);
+                logMessage(`📝 Initial order: [${initialOrder.join(', ')}]`, 'info');
+                
+                // Sort the rows
+                rows.sort((a, b) => {
+                    try {
+                        let aVal = a.cells[columnIndex] ? a.cells[columnIndex].textContent.trim() : '';
+                        let bVal = b.cells[columnIndex] ? b.cells[columnIndex].textContent.trim() : '';
+                        
+                        // Handle numeric columns (Credits=4 and Enrolled=6)
+                        if (columnIndex === 4 || columnIndex === 6) {
+                            aVal = parseInt(aVal) || 0;
+                            bVal = parseInt(bVal) || 0;
+                            logMessage(`🔢 Numeric sort: ${aVal} vs ${bVal}`, 'info');
+                        } else {
+                            aVal = aVal.toLowerCase();
+                            bVal = bVal.toLowerCase();
+                            logMessage(`🔤 Text sort: "${aVal}" vs "${bVal}"`, 'info');
+                        }
+                        
+                        if (aVal < bVal) return newDirection === 'asc' ? -1 : 1;
+                        if (aVal > bVal) return newDirection === 'asc' ? 1 : -1;
+                        return 0;
+                    } catch (sortError) {
+                        logMessage('❌ Error during row comparison: ' + sortError.message, 'error');
+                        return 0;
+                    }
+                });
+                
+                // Get final order for comparison
+                const finalOrder = rows.map(row => row.cells[columnIndex].textContent.trim()).slice(0, 3);
+                logMessage(`📝 Final order: [${finalOrder.join(', ')}]`, 'success');
+                
+                // Re-append sorted rows with animation
+                rows.forEach((row, index) => {
+                    tbody.appendChild(row);
+                    // Add subtle animation
+                    row.style.transition = 'background-color 0.3s ease';
+                    row.style.backgroundColor = '#f8f9fa';
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 200 + (index * 20));
+                });
+                
+                // Show feedback
+                const columnNames = ['', 'Course Code', 'Course Name', 'Department', 'Credits', 'Instructor', 'Enrolled', 'Status'];
+                const columnName = columnNames[columnIndex] || `Column ${columnIndex}`;
+                const message = `✅ Table sorted by ${columnName} (${newDirection === 'asc' ? 'ascending' : 'descending'})`;
+                
+                logMessage(`🎉 ${message}`, 'success');
+                showToast(message, 'success');
+                
+                // Update test results
+                updateTestResults(columnIndex, columnName, newDirection, true);
+                
+            } catch (error) {
+                logMessage('❌ Error in sortTable: ' + error.message, 'error');
+                showToast('An error occurred while sorting the table', 'error');
+                updateTestResults(columnIndex, 'Unknown', 'unknown', false);
+            }
+        }
+
+        // Test sorting functionality
+        function testSorting() {
+            logMessage('🧪 Starting sorting functionality test...', 'info');
+            updateStatus('Running automated tests...');
+            
+            // Clear previous results
+            document.getElementById('testResults').innerHTML = '<div class="text-muted">Running tests...</div>';
+            
+            // Test each sortable column
+            const sortableColumns = [1, 2, 3, 4, 5, 6, 7]; // Course Code, Name, Department, Credits, Instructor, Enrolled, Status
+            
+            sortableColumns.forEach((columnIndex, testIndex) => {
+                setTimeout(() => {
+                    logMessage(`🧪 Testing column ${columnIndex}`, 'info');
+                    sortTable(columnIndex);
+                    
+                    if (testIndex === sortableColumns.length - 1) {
+                        setTimeout(() => {
+                            logMessage('🎉 All sorting tests completed!', 'success');
+                            showToast('Sorting functionality test completed successfully!', 'success');
+                            updateStatus('Tests completed successfully');
+                        }, 500);
+                    }
+                }, testIndex * 1500);
+            });
+        }
+
+        // SweetAlert2 toast function
+        function showToast(message, type = 'info') {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+
+            const iconMap = {
+                'success': 'success',
+                'error': 'error',
+                'warning': 'warning',
+                'info': 'info'
+            };
+
+            Toast.fire({
+                icon: iconMap[type] || 'info',
+                title: message
+            });
+        }
+
+        // Logging function
+        function logMessage(message, type = 'info') {
+            const logDiv = document.getElementById('testLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const colorClass = type === 'error' ? 'text-danger' : 
+                              type === 'warning' ? 'text-warning' : 
+                              type === 'success' ? 'text-success' : 'text-info';
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = colorClass;
+            logEntry.innerHTML = `<small>${timestamp}</small> ${message}`;
+            
+            if (logDiv.children.length === 1 && logDiv.children[0].classList.contains('text-muted')) {
+                logDiv.innerHTML = '';
+            }
+            
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        // Update test results
+        function updateTestResults(columnIndex, columnName, direction, success) {
+            const resultsDiv = document.getElementById('testResults');
+            
+            if (resultsDiv.children.length === 1 && resultsDiv.children[0].classList.contains('text-muted')) {
+                resultsDiv.innerHTML = '';
+            }
+            
+            const resultItem = document.createElement('div');
+            resultItem.className = `d-flex justify-content-between align-items-center mb-2 p-2 rounded ${success ? 'bg-success' : 'bg-danger'} text-white`;
+            resultItem.innerHTML = `
+                <div>
+                    <strong>Column ${columnIndex}:</strong> ${columnName}
+                    <br><small>Direction: ${direction}</small>
+                </div>
+                <div>
+                    <i class="fas fa-${success ? 'check' : 'times'}"></i>
+                </div>
+            `;
+            
+            resultsDiv.appendChild(resultItem);
+        }
+
+        // Update test status
+        function updateStatus(status) {
+            document.getElementById('testStatus').textContent = status;
+        }
+
+        // Reset table to original order
+        function resetTable() {
+            populateTable();
+            sortDirection = {};
+            document.querySelectorAll('.sortable i').forEach(icon => {
+                icon.className = 'fa fa-sort ms-1 text-muted';
+            });
+            logMessage('🔄 Table reset to original order', 'info');
+            updateStatus('Ready');
+        }
+
+        // Clear log
+        function clearLog() {
+            document.getElementById('testLog').innerHTML = '<div class="text-muted">Test log cleared...</div>';
+        }
+
+        // Populate table with sample data
+        function populateTable() {
+            const tbody = document.getElementById('courseTableBody');
+            const sampleData = [
+                ['CS101', 'Introduction to Computer Science', 'Computer Science', '3', 'Dr. John Smith', '45', 'Active'],
+                ['MATH201', 'Advanced Calculus', 'Mathematics', '4', 'Prof. Alice Johnson', '32', 'Draft'],
+                ['ENG102', 'English Composition', 'English', '2', 'Dr. Sarah Wilson', '28', 'Active'],
+                ['BUS301', 'Business Ethics', 'Business', '3', 'Prof. Michael Brown', '15', 'Inactive'],
+                ['PHY101', 'Physics Fundamentals', 'Physics', '4', 'Dr. Robert Davis', '38', 'Active'],
+                ['HIST205', 'World History', 'History', '3', 'Dr. Lisa Chen', '42', 'Active'],
+                ['CHEM101', 'General Chemistry', 'Chemistry', '4', 'Prof. James Wilson', '35', 'Draft'],
+                ['ART150', 'Digital Art Basics', 'Arts', '2', 'Ms. Emily Rodriguez', '22', 'Active']
+            ];
+            
+            tbody.innerHTML = '';
+            
+            sampleData.forEach((rowData, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input class="form-check-input" type="checkbox" value="${rowData[0]}"></td>
+                    <td><div class="course-code-badge">${rowData[0]}</div></td>
+                    <td>${rowData[1]}</td>
+                    <td><span class="department-badge">${rowData[2]}</span></td>
+                    <td class="text-center">${rowData[3]}</td>
+                    <td>${rowData[4]}</td>
+                    <td class="text-center">${rowData[5]}</td>
+                    <td class="text-center"><span class="badge bg-${rowData[6] === 'Active' ? 'success' : rowData[6] === 'Draft' ? 'warning' : 'secondary'} status-badge">${rowData[6]}</span></td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-outline-success me-1"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            populateTable();
+            logMessage('📋 Table populated with sample data', 'success');
+            updateStatus('Ready');
+            
+            // Auto-run test after 3 seconds
+            setTimeout(() => {
+                logMessage('🚀 Auto-starting tests in 2 seconds...', 'info');
+                setTimeout(testSorting, 2000);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Student.master.cs" Inherits="Learning_Management_System.authUser.Student.Student" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+     <meta name="description" content="University of Education, Winneba - Learning Management System Student" />
+    <meta name="keywords" content="LMS, Education, University, Learning, Management, Student" />
+    <meta name="author" content="University of Education, Winneba" />
+    <link rel="icon" href="../../Assest/Images/uew_logo.ico" type="image/x-icon">
+    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link
+      rel="stylesheet"
+      href="../../Assest/css/bootstrap-5.2.3-dist/css/bootstrap.css"
+    />
+    <script src="../../Assest/css/bootstrap-5.2.3-dist/js/bootstrap.js"></script>
+   <link rel="stylesheet" href="../../Assest/fontawesome-free-6.7.2-web/css/all.css"/>
+    <link rel="stylesheet" href="../../Assest/css/style.css" />
+    <link rel="stylesheet" href="../../Assest/css/StudentMaster.css" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+        <!-- Error Recovery Button -->
+    <div id="errorRecoveryButton" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: none;">
+        <button class="btn btn-danger">
+            <i class="fas fa-exclamation-triangle"></i> Page Error Detected - Click to Refresh
+        </button>
+    </div>
+
+    <header id="header" class="header">
+      <div class="logo"><img src="../../Assest/Images/uewDash.png" alt="" /></div>
+      <div class="nav-links">
+        <a href="Home.aspx" class="nav-links-child">Home</a>
+        <a href="Dashboard.aspx" class="nav-links-child">Dashboard</a>
+        <a href="Course.aspx" class="nav-links-child">My Courses</a>
+      </div>
+      <div class="header-right">
+        <div class="search-bar-modern" id="search-bar">
+          <form class="search-form d-flex align-items-center" autocomplete="off" onsubmit="return false;">
+            <input type="search" class="form-control search-input" placeholder="Search courses, assignments..." aria-label="Search" />
+            <button type="submit" class="btn search-btn" aria-label="Search">
+              <i class="fa fa-search"></i>
+            </button>
+            <button type="button" class="btn close-btn d-none" id="close-search-btn" aria-label="Close search">
+              <i class="fa fa-times"></i>
+            </button>
+          </form>
+        </div>
+        <style>
+          .search-bar-modern {
+            position: relative;
+            min-width: 220px;
+            max-width: 350px;
+            margin-right: 1.2rem;
+            transition: max-width 0.3s;
+          }
+          .search-form {
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 2px 12px rgba(0,123,255,0.08);
+            padding: 2px 8px 2px 16px;
+            gap: 0.3rem;
+            width: 100%;
+            transition: box-shadow 0.2s;
+          }
+          .search-input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            flex: 1;
+            padding: 7px 0;
+            color: #2c3e50;
+          }
+          .search-input::placeholder {
+            color: #b0b8c1;
+            opacity: 1;
+          }
+          .search-btn, .close-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 1.2rem;
+            padding: 6px 10px;
+            border-radius: 50%;
+            transition: background 0.18s, color 0.18s;
+          }
+          .search-btn:hover, .close-btn:hover {
+            background: #e3f2fd;
+            color: #0056b3;
+          }
+          .close-btn {
+            color: #d32f2f;
+          }
+          .close-btn:hover {
+            background: #ffebee;
+            color: #b71c1c;
+          }
+          @media (max-width: 600px) {
+            .search-bar-modern { min-width: 120px; max-width: 100%; margin-right: 0.5rem; }
+            .search-form { padding: 2px 4px 2px 8px; }
+            .search-input { font-size: 0.97rem; }
+          }
+        </style>
+        <script>
+            // Modern Admin Dashboard JavaScript
+        let searchTimeout; // Global variable for search debouncing
+        
+        // Helper function to safely find elements
+        function safeGetElement(id) {
+            const element = document.getElementById(id);
+            if (!element) {
+                console.warn(`Element with id '${id}' not found`);
+            }
+            return element;
+        }
+          // Modern search bar interaction
+            document.addEventListener('DOMContentLoaded', function () {
+                initializeErrorRecovery();
+            const searchInput = document.querySelector('.search-bar-modern .search-input');
+            const closeBtn = document.getElementById('close-search-btn');
+            const form = document.querySelector('.search-bar-modern .search-form');
+            if (searchInput && closeBtn && form) {
+              searchInput.addEventListener('focus', function() {
+                closeBtn.classList.remove('d-none');
+                form.classList.add('shadow-lg');
+              });
+              closeBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                closeBtn.classList.add('d-none');
+                form.classList.remove('shadow-lg');
+                searchInput.blur();
+              });
+              form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Implement search logic here
+                alert('Searching for: ' + searchInput.value);
+              });
+            }
+          });
+        </script>
+        <div class="user-profile">
+          <span class="username" id="username">User</span>
+          <span class="profile-pic"
+            ><img
+              class="PicProfile" id="profilePic"
+              src="../../Assest/Images/ProfileUew.png"
+              alt="Student Profile"
+          /></span>
+          <span class="profile-dropdown"><i class="fa fa-caret-down"></i></span>
+          <div class="drop-profile modern-profile-dropdown shadow animate__animated animate__fadeIn">
+            <div class="profile-card-header text-center py-3 px-3">
+              <img src="../../Assest/Images/ProfileUew.png" alt="Profile" class="profile-card-pic mb-2" id="dropDown-ProfilePic"/>
+              <div class="profile-card-name fw-bold" id="dropDown-Username">User Name</div>
+              <div class="profile-card-role small">Student</div>
+            </div>
+            <div class="profile-card-links d-flex flex-column gap-1 mt-2">
+              <a href="Profile.aspx" class="profile-link"><i class="fa fa-user me-2"></i>Profile</a>
+              <a href="Grade.aspx" class="profile-link"><i class="fa fa-graduation-cap me-2"></i>Grades</a>
+              <a href="./Schedule.aspx" class="profile-link"><i class="fas fa-calendar me-2"></i>Schedule</a>
+              <a href="Settings.aspx" class="profile-link"><i class="fa fa-cog me-2"></i>Settings</a>
+              <hr class="my-2" style="border-color: #4949497b;">
+              <a href="../../Accounts/Login.aspx" onclick="confirmLogout(); return false;" class="profile-link text-danger"><i class="fa fa-sign-out-alt me-2"></i>Logout</a>
+            </div>
+          </div>
+          <style>
+            .modern-profile-dropdown {
+              min-width: 220px;
+              background: #fff;
+              border-radius: 14px;
+              box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+              padding: 0;
+              position: absolute;
+              right: 0;
+              top: 70%;
+              z-index: 1000;
+              display: none;
+              cursor: default;
+              animation-duration: 0.25s;
+            }
+            .user-profile:hover .modern-profile-dropdown,
+            .user-profile:focus-within .modern-profile-dropdown {
+              display: block;
+            }
+            .profile-card-header {
+              border-bottom: 1px solid #f1f3f4;
+              background: linear-gradient(135deg, #007bff, #0056b3);
+              color: #fff;
+              border-radius: 14px 14px 0 0;
+            }
+            .profile-card-pic {
+              width: 60px;
+              height: 60px;
+              border-radius: 50%;
+              object-fit: cover;
+              border: 3px solid #fff;
+              box-shadow: 0 2px 8px rgba(0,123,255,0.10);
+            }
+            .profile-card-name {
+              font-size: 1.1rem;
+              margin-bottom: 2px;
+            }
+            .profile-card-role {
+              font-size: 0.95rem;
+              opacity: 0.85;
+              color: #fff;
+            }
+            .profile-card-links {
+              padding: 0.5rem 1rem 1rem 1rem;
+            }
+            .profile-link {
+              color: #2c3e50;
+              text-decoration: none;
+              padding: 7px 10px 7px 10px;
+              border-radius: 7px;
+              font-size: 1rem;
+              font-weight: 500;
+              transition: background 0.18s, color 0.18s;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            }
+            .profile-link:hover {
+              background: #e3f2fd;
+              color: #1976d2;
+            }
+            .profile-link.text-danger {
+              color: #d32f2f;
+            }
+            .profile-link.text-danger:hover {
+              background: #ffebee;
+              color: #b71c1c;
+            }
+            @media (max-width: 600px) {
+              .modern-profile-dropdown { min-width: 170px; }
+              .profile-card-header { padding: 1rem 0.5rem; }
+              .profile-card-links { padding: 0.5rem 0.5rem 1rem 0.5rem; }
+            }
+          </style>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        </div>
+      </div>
+    </header>
+    <main class="container main-content">
+      <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+      </asp:ContentPlaceHolder>
+    </main>
+    <footer class="student-footer mt-5">
+      <div class="container py-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-md-4 text-center text-md-start mb-2 mb-md-0">
+            <img src="../../Assest/Images/uewDash.png" alt="UEW Logo" style="height: 40px; margin-bottom: 8px;">
+            <div class="footer-brand fw-bold mt-2">University of Education, Winneba</div>
+            <div class="footer-copy small" style="color: #fff;">&copy; <span id="footerYear"></span> All rights reserved.</div>
+          </div>
+          <div class="col-md-4 text-center mb-2 mb-md-0">
+            <div class="footer-links d-flex justify-content-center gap-3 flex-wrap">
+              <a href="Home.aspx" class="footer-link">Home</a>
+              <a href="Dashboard.aspx" class="footer-link">Dashboard</a>
+              <a href="Course.aspx" class="footer-link">Courses</a>
+              <a href="Contact.aspx" class="footer-link">Contact</a>
+            </div>
+          </div>
+          <div class="col-md-4 text-center text-md-end">
+            <div class="footer-social d-flex justify-content-center justify-content-md-end gap-3">
+              <a href="#" class="footer-social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="footer-social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="footer-social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="footer-social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <style>
+      .student-footer {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: #fff;
+        box-shadow: 0 -2px 16px rgba(0,0,0,0.07);
+        font-family: 'Roboto', sans-serif;
+        letter-spacing: 0.01em;
+      }
+      .student-footer .footer-brand {
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+      }
+      .student-footer .footer-copy {
+        font-size: 0.95rem;
+        opacity: 0.85;
+      }
+      .student-footer .footer-links .footer-link {
+        color: #e3f2fd;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+        font-size: 1rem;
+      }
+      .student-footer .footer-links .footer-link:hover {
+        color: #ffc107;
+        text-decoration: underline;
+      }
+      .student-footer .footer-social-link {
+        color: #e3f2fd;
+        font-size: 1.3rem;
+        transition: color 0.2s, transform 0.2s;
+      }
+      .student-footer .footer-social-link:hover {
+        color: #ffc107;
+        transform: translateY(-2px) scale(1.1);
+      }
+      @media (max-width: 600px) {
+        .student-footer .container { padding-left: 10px; padding-right: 10px; }
+        .student-footer .footer-brand { font-size: 1rem; }
+        .student-footer .footer-links .footer-link { font-size: 0.95rem; }
+        .student-footer .footer-social-link { font-size: 1.1rem; }
+      }
+    </style>
+    <script>
+
+$.ajax({
+    type: "POST",
+    url: "Dashboard.aspx/LoadStudent", // Or StudentProfileService.aspx/LoadStudent
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(res) {
+        var data = res.d ? JSON.parse(res.d) : res;
+        $('#username').text(data.username || "Unknown");
+        $('#dropDown-Username').text(data.username || "Unknown");
+        $('#dropDown-ProfilePic').attr('src', data.ProfilePicture || '~/Assets/Images/default-profile.png');
+        $('#profilePic').attr('src', data.ProfilePicture || '~/Assets/Images/default-profile.png');
+    }
+});
+
+
+      // Set current year in footer
+      document.addEventListener('DOMContentLoaded', function() {
+        var year = new Date().getFullYear();
+        var el = document.getElementById('footerYear');
+        if (el) el.textContent = year;
+      });
+
+        function showToast(message, type = 'info') {
+            try {
+                if (typeof Swal !== 'undefined') {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        background: '#ffffff',
+                        color: '#333333',
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: type,
+                        title: message
+                    });
+                } else {
+                    // Fallback when SweetAlert is not available
+                    console.log(`${type.toUpperCase()}: ${message}`);
+                    
+                    // Simple browser alert for critical messages
+                    if (type === 'error' || type === 'warning') {
+                        alert(`${type.toUpperCase()}: ${message}`);
+                    }
+                }
+            } catch (error) {
+                console.error("Error showing toast:", error);
+                // Fallback to console log if the toast display fails
+                console.log(`${type.toUpperCase()}: ${message}`);
+            }
+        }
+
+        function initializeErrorRecovery() {
+            try {
+                // Initialize error recovery button
+                const errorRecoveryButton = safeGetElement('errorRecoveryButton');
+                if (errorRecoveryButton) {
+                    errorRecoveryButton.addEventListener('click', function() {
+                        window.location.reload();
+                    });
+                }
+                
+                // Initialize refresh button in loading overlay
+                <%-- const refreshButton = safeGetElement('refreshButton');
+                if (refreshButton) {
+                    refreshButton.addEventListener('click', function() {
+                        window.location.reload();
+                    });
+                    
+                    // Show refresh button if loading takes too long
+                    setTimeout(function() {
+                        const loadingOverlay = safeGetElement('loadingOverlay');
+                        if (loadingOverlay && loadingOverlay.classList.contains('active')) {
+                            refreshButton.style.display = 'block';
+                        }
+                    }, 10000); 
+                }--%>
+                } catch (error) {
+                console.error("Error initializing error recovery:", error);
+            }
+                }
+        
+
+        function confirmLogout() {
+            try {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Confirm Logout',
+                        text: 'Are you sure you want to logout from the admin dashboard?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#2c2b7c',
+                        cancelButtonColor: '#666666',
+                        confirmButtonText: '<i class="fas fa-sign-out-alt"></i> Yes, Logout',
+                        cancelButtonText: '<i class="fas fa-times"></i> Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            performLogout();
+                        }
+                    });
+                } else {
+                    // Fallback for when SweetAlert is not available
+                    if (confirm('Are you sure you want to logout from the admin dashboard?')) {
+                        performLogout();
+                    }
+                }
+            } catch (error) {
+                console.error("Error in confirmLogout:", error);
+                // Fallback direct logout if there's an error with the confirmation
+                try {
+                    performLogout();
+                } catch (logoutError) {
+                    console.error("Error performing logout:", logoutError);
+                    window.location.href = '<%= ResolveUrl("~/Accounts/Login.aspx") %>';
+                }
+            }
+        }
+
+                function showLoading() {
+            try {
+                const loadingOverlay = safeGetElement('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.classList.add('active');
+                }
+            } catch (error) {
+                console.error("Error in showLoading:", error);
+            }
+        }
+
+          function hideLoading() {
+            try {
+                const loadingOverlay = safeGetElement('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.classList.remove('active');
+                }
+            } catch (error) {
+                console.error("Error in hideLoading:", error);
+            }
+        }
+
+    function performLogout() {
+            try {
+                showLoading();
+
+                fetch('<%= ResolveUrl("~/Accounts/Logout.aspx/PerformLogout") %>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.d && data.d.success) {
+                        showToast('Logout successful', 'success');
+                        setTimeout(() => {
+                            window.location.href = '<%= ResolveUrl("~/Accounts/Login.aspx") %>';
+                        }, 1000);
+                    } else {
+                        hideLoading();
+                        showToast('Logout failed. Redirecting to login...', 'warning');
+                        setTimeout(() => {
+                            window.location.href = '<%= ResolveUrl("~/Accounts/Login.aspx") %>';
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Logout error:', error);
+                    showToast('Logout failed. Redirecting to login...', 'warning');
+                    setTimeout(() => {
+                        window.location.href = '<%= ResolveUrl("~/Accounts/Login.aspx") %>';
+                    }, 1000);
+                });
+            } catch (error) {
+                console.error("Error in performLogout:", error);
+                // Fallback redirect to login page on error
+                window.location.href = '<%= ResolveUrl("~/Accounts/Login.aspx") %>';
+            }
+        }
+    </script>
+    <script src="../../Assest/js/StudentMaster.js"></script>
+    <script src="../../Assest/fontawesome-free-6.7.2-web/js/all.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Toggle Test</title>
+    <style>
+        /* Same CSS variables as course.css */
+        :root {
+            --course-text-color: #333;
+            --course-bg-color: #fff;
+            --course-border-color: #dee2e6;
+            --course-primary-color: #007bff;
+        }
+
+        .dark-theme {
+            --course-text-color: #e0e0e0;
+            --course-bg-color: #2d3748;
+            --course-border-color: #4a5568;
+            --course-primary-color: #667eea;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--course-bg-color);
+            color: var(--course-text-color);
+            margin: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: var(--course-bg-color);
+            border: 2px solid var(--course-border-color);
+            border-radius: 10px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--course-primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: var(--course-bg-color);
+            border: 1px solid var(--course-border-color);
+            border-radius: 8px;
+        }
+
+        .log {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .dark-theme .log {
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i> Toggle
+    </button>
+
+    <div class="test-container">
+        <h1>Theme Toggle Test</h1>
+        <p>This page tests the same theme management logic as Course.aspx</p>
+
+        <div class="test-section">
+            <h3>Current Theme Status</h3>
+            <p>Theme in localStorage: <span id="storageTheme">-</span></p>
+            <p>Body has dark-theme class: <span id="bodyClass">-</span></p>
+            <p>CSS variables working: <span id="cssVars">-</span></p>
+        </div>
+
+        <div class="test-section">
+            <h3>Event Tests</h3>
+            <button onclick="testStorageEvent()">Test Storage Event</button>
+            <button onclick="testCustomEvent()">Test Custom Event</button>
+            <button onclick="testDirectToggle()">Test Direct Toggle</button>
+        </div>
+
+        <div class="log" id="logContainer">
+            <strong>Event Log:</strong><br>
+        </div>
+    </div>
+
+    <script>
+        // Same theme management as Course.aspx
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus();
+            log('Page loaded');
+
+            // Get the saved theme from localStorage
+            const savedTheme = localStorage.getItem('admin-theme');
+            
+            // Apply the theme class to the body
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                log('Dark theme applied on load');
+            } else {
+                document.body.classList.remove('dark-theme');
+                log('Light theme applied on load');
+            }
+            
+            // Listen for theme changes from other pages/windows
+            window.addEventListener('storage', function(e) {
+                log('Storage event detected: ' + e.key + ' = ' + e.newValue);
+                if (e.key === 'admin-theme') {
+                    if (e.newValue === 'dark') {
+                        document.body.classList.add('dark-theme');
+                        log('Theme changed to dark via storage event');
+                    } else {
+                        document.body.classList.remove('dark-theme');
+                        log('Theme changed to light via storage event');
+                    }
+                    updateStatus();
+                }
+            });
+
+            // Listen for theme toggle clicks on the current page
+            const themeToggleButton = document.querySelector('.theme-toggle');
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', function() {
+                    log('Theme toggle button clicked');
+                    // Wait a moment for localStorage to be updated
+                    setTimeout(function() {
+                        const currentTheme = localStorage.getItem('admin-theme');
+                        if (currentTheme === 'dark') {
+                            document.body.classList.add('dark-theme');
+                            log('Theme toggled to dark');
+                        } else {
+                            document.body.classList.remove('dark-theme');
+                            log('Theme toggled to light');
+                        }
+                        updateStatus();
+                    }, 50);
+                });
+            }
+
+            // Listen for custom theme change events
+            window.addEventListener('themeChanged', function(e) {
+                const newTheme = e.detail.theme;
+                log('Custom theme event: ' + newTheme);
+                if (newTheme === 'dark') {
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                }
+                updateStatus();
+            });
+
+            updateStatus();
+        });
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('dark-theme');
+            
+            let newTheme;
+            if (body.classList.contains('dark-theme')) {
+                localStorage.setItem('admin-theme', 'dark');
+                newTheme = 'dark';
+            } else {
+                localStorage.setItem('admin-theme', 'light');
+                newTheme = 'light';
+            }
+
+            // Dispatch custom event
+            const themeEvent = new CustomEvent('themeChanged', {
+                detail: { theme: newTheme }
+            });
+            window.dispatchEvent(themeEvent);
+            
+            log('Theme toggled to: ' + newTheme);
+            updateStatus();
+        }
+
+        function testStorageEvent() {
+            // Simulate storage event (this won't work on same window)
+            log('Testing storage event (Note: storage events only work across different windows)');
+            const event = new StorageEvent('storage', {
+                key: 'admin-theme',
+                newValue: localStorage.getItem('admin-theme') === 'dark' ? 'light' : 'dark'
+            });
+            window.dispatchEvent(event);
+        }
+
+        function testCustomEvent() {
+            const currentTheme = localStorage.getItem('admin-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            log('Testing custom event: ' + newTheme);
+            const themeEvent = new CustomEvent('themeChanged', {
+                detail: { theme: newTheme }
+            });
+            window.dispatchEvent(themeEvent);
+        }
+
+        function testDirectToggle() {
+            log('Testing direct toggle');
+            toggleTheme();
+        }
+
+        function updateStatus() {
+            document.getElementById('storageTheme').textContent = localStorage.getItem('admin-theme') || 'null';
+            document.getElementById('bodyClass').textContent = document.body.classList.contains('dark-theme') ? 'true' : 'false';
+            
+            // Test CSS variables
+            const testColor = getComputedStyle(document.body).getPropertyValue('--course-bg-color');
+            document.getElementById('cssVars').textContent = testColor || 'not working';
+        }
+
+        function log(message) {
+            const logContainer = document.getElementById('logContainer');
+            const timestamp = new Date().toLocaleTimeString();
+            logContainer.innerHTML += `[${timestamp}] ${message}<br>`;
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>

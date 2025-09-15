@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="icon" href="../images/uew_logo.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../css/fontawesome-free-6.7.2-web/css/all.css"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/login.css" />
+  </head>
+  <body>
+    <form id="FrmLogin" runat="server">
+      <div class="login-container">
+        <div class="logo-container">
+          <img id="ImgLogo" src="../images/uew_logo.png" alt="UEW LOGIN" />
+          <label id="lblLogo" runat="server">LOGIN</label>
+        </div>
+        <div class="login-form">
+          <div class="form-Email">
+            <label for="txtEmail" class="lblEmailClass">Email</label>
+            <div class="input-container">
+              <i class="fa fa-user icon icon-input"></i>
+              <input
+                type="text"
+                id="txtEmail"
+                name="txtEmail"
+                title="Enter your email"
+                placeholder="Enter your email"
+              />
+            </div>
+          </div>
+          <div class="form-Password">
+            <label for="txtPassword" class="lblPasswordClass">Password</label>
+            <div class="input-container">
+              <i class="fa fa-lock icon icon-input"></i>
+              <input
+                type="password"
+                id="txtPassword"
+                name="txtPassword"
+                title="Enter your email"
+                placeholder="Enter your Password"
+              />
+              <i
+                class="fa fa-eye togglePassword"
+                id="togglePassword"
+                onclick="togglePasswordVisibility()"
+                title="Toggle Password Visibility"
+              ></i>
+            </div>
+          </div>
+          <div class="form-forgot-password">
+            <a href="ForgotPassword.html" id="lnkForgotPassword"
+              >Forgot Password?</a
+            >
+          </div>
+          <div class="from-Submit">
+            <button type="submit" id="btnLogin" name="btnLogin" title="Login">
+              Login
+            </button>
+          </div>
+
+          <div class="form-register">
+            <span>Don't have an account? </span>
+            <a href="Register.html" id="lnkRegister">Register</a>
+          </div>
+          <div class="form-version">
+            <span id="lblVersion" runat="server"></span>
+            <span>Version 1.0</span>
+          </div>
+        </div>
+      </div>
+    </form>
+    <script src="../js/script.js"></script>
+  </body>
+</html>

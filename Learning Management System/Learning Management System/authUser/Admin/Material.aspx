@@ -1,0 +1,956 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/authUser/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Material.aspx.cs" Inherits="Learning_Management_System.authUser.Admin.Material" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+<title>Material Management - Learning Management System</title>
+    <style>
+
+    body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .material-container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+        }
+        
+        .breadcrumb-nav {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .breadcrumb-nav .breadcrumb {
+            margin: 0;
+        }
+        
+        .breadcrumb-nav .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breadcrumb-nav .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Course List View */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15);
+            border-color: #007bff;
+        }
+        
+        .course-card .course-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .course-card .course-icon i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        .course-card h5 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .course-card .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .course-card .sections-count {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .course-card .materials-count {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Course Details View */
+        .course-details {
+            display: none;
+        }
+        
+        .course-info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid #007bff;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-view {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn-add {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .btn-view:hover {
+            background: #bbdefb;
+        }
+        
+        .btn-add:hover {
+            background: #c8e6c9;
+        }
+        
+        /* Material Management View */
+        .material-management {
+            display: none;
+        }
+        
+        .materials-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .materials-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+/* Stylish loading spinner for course grid */
+.course-loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    color: #1976d2;
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.85;
+}
+.course-loading-spinner .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    color: #1976d2;
+}
+
+        .table-responsive {
+            border-radius: 12px;
+        }
+        
+        .table thead th {
+            background: #f8f9fa;
+            border: none;
+            font-weight: 600;
+            color: #2c3e50;
+            padding: 15px;
+        }
+        
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-top: 1px solid #f1f3f4;
+        }
+        
+        .file-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .file-pdf { background: #ffebee; color: #d32f2f; }
+        .file-doc { background: #e3f2fd; color: #1976d2; }
+        .file-video { background: #f3e5f5; color: #7b1fa2; }
+        .file-image { background: #e8f5e8; color: #388e3c; }
+        .file-default { background: #f5f5f5; color: #616161; }
+        
+        .btn-sm-custom {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 6px;
+            margin: 0 2px;
+        }
+        
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .btn-close-white {
+            filter: brightness(0) invert(1);
+        }
+        
+        /* Back Button */
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateX(-2px);
+        }
+        
+        /* Hide/Show Views */
+        .view-active {
+            display: block !important;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</asp:Content>
+
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+ <div class="material-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="mb-2">
+                <i class="fas fa-folder-open me-3"></i>
+                Material Management
+            </h1>
+            <p class="mb-0 opacity-75">Manage course materials, documents, and resources</p>
+        </div>
+
+        <!-- Breadcrumb Navigation -->
+        <div class="breadcrumb-nav">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" id="breadcrumb">
+                    <li class="breadcrumb-item active">All Courses</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- VIEW 1: Course List -->
+        <div id="courseListView" class="view-active">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="text-primary">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    Select a Course
+                </h3>
+                <div class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Click on a course to manage its materials
+                </div>
+            </div>
+            
+            <div class="course-grid" id="courseGrid">
+                <!-- Courses will be loaded here -->
+            </div>
+        </div>
+
+        <!-- VIEW 2: Course Details & Sections -->
+        <div id="courseDetailsView" class="course-details">
+            <button class="back-btn mb-4" onclick="showCourseList()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Courses
+            </button>
+
+            <!-- Selected Course Info -->
+            <div class="course-info-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="text-primary mb-2" id="selectedCourseTitle">Course Title</h3>
+                        <p class="text-muted mb-0" id="selectedCourseDesc">Course description and details</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="d-flex justify-content-end gap-3">
+                            <div class="text-center">
+                                <div class="h4 text-success mb-0" id="totalSections">0</div>
+                                <small class="text-muted">Sections</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="h4 text-warning mb-0" id="totalMaterials">0</div>
+                                <small class="text-muted">Materials</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Sections -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="text-primary">
+                    <i class="fas fa-list me-2"></i>
+                    Course Sections
+                </h4>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSectionModal">
+                    <i class="fas fa-plus me-2"></i>
+                    Add New Section
+                </button>
+            </div>
+
+            <div class="sections-grid" id="sectionsGrid">
+                <!-- Sections will be loaded here -->
+            </div>
+        </div>
+
+        <!-- VIEW 3: Material Management -->
+        <div id="materialManagementView" class="material-management">
+            <button class="back-btn mb-4" onclick="showCourseDetails()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Sections
+            </button>
+
+            <!-- Materials Header -->
+            <div class="materials-header">
+                <div>
+                    <h4 class="text-primary mb-1" id="sectionTitle">Section Title</h4>
+                    <p class="text-muted mb-0" id="sectionDescription">Section description</p>
+                </div>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMaterialModal">
+                    <i class="fas fa-cloud-upload-alt me-2"></i>
+                    Upload Material
+                </button>
+            </div>
+
+            <!-- Materials Table -->
+            <div class="materials-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="materialsTable">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Uploaded</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materialsTableBody">
+                            <!-- Materials will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Section Modal -->
+    <div class="modal fade" id="addSectionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus me-2"></i>
+                        Add New Section
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addSectionForm">
+                        <div class="mb-3">
+                            <label for="sectionName" class="form-label">Section Name</label>
+                            <input type="text" class="form-control" id="sectionName" placeholder="e.g., Introduction, Chapter 1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sectionDesc" class="form-label">Description</label>
+                            <textarea class="form-control" id="sectionDesc" rows="3" placeholder="Brief description of this section..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sectionOrder" class="form-label">Order</label>
+                            <input type="number" class="form-control" id="sectionOrder" min="1" value="1">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addSection()">
+                        <i class="fas fa-save me-2"></i>Add Section
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Material Modal -->
+    <div class="modal fade" id="addMaterialModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>
+                        Upload Material
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMaterialForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="materialTitle" class="form-label">Material Title</label>
+                                <input type="text" class="form-control" id="materialTitle" placeholder="Enter title" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="materialType" class="form-label">Material Type</label>
+                                <select class="form-select" id="materialType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="pdf">PDF Document</option>
+                                    <option value="video">Video</option>
+                                    <option value="document">Word Document</option>
+                                    <option value="presentation">Presentation</option>
+                                    <option value="image">Image</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="materialFile" class="form-label">Choose File</label>
+                            <input type="file" class="form-control" id="materialFile" required>
+                            <div class="form-text">Supported formats: PDF, DOC, DOCX, PPT, PPTX, MP4, AVI, JPG, PNG (Max: 50MB)</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="materialDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="materialDescription" rows="3" placeholder="Brief description of the material..."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="materialStatus" class="form-label">Status</label>
+                                <select class="form-select" id="materialStatus" required>
+                                    <option value="active">Active</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="materialTags" class="form-label">Tags</label>
+                                <input type="text" class="form-control" id="materialTags" placeholder="e.g., lecture, homework, reading">
+                                <div class="form-text">Separate tags with commas</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadMaterial()">
+                        <i class="fas fa-upload me-2"></i>Upload Material
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Sample Data
+        const courses = [
+            {
+                id: 1,
+                code: 'CS101',
+                name: 'Introduction to Computer Science',
+                description: 'Basic concepts of programming and computer science fundamentals',
+                instructor: 'Dr. Kwame Asante',
+                sections: 8,
+                materials: 24
+            },
+            {
+                id: 2,
+                code: 'MATH201',
+                name: 'Calculus II',
+                description: 'Advanced calculus including integration techniques and applications',
+                instructor: 'Prof. Ama Osei',
+                sections: 12,
+                materials: 18
+            },
+            {
+                id: 3,
+                code: 'EDU301',
+                name: 'Educational Psychology',
+                description: 'Psychological principles applied to educational settings',
+                instructor: 'Dr. Kofi Mensah',
+                sections: 6,
+                materials: 15
+            },
+            {
+                id: 4,
+                code: 'BUS205',
+                name: 'Business Ethics',
+                description: 'Ethical decision-making in business contexts',
+                instructor: 'Mrs. Akosua Darko',
+                sections: 4,
+                materials: 12
+            }
+        ];
+
+        const courseSections = {
+            1: [
+                { id: 1, name: 'Introduction to Programming', description: 'Basic programming concepts', materials: 6 },
+                { id: 2, name: 'Data Types and Variables', description: 'Understanding data types', materials: 4 },
+                { id: 3, name: 'Control Structures', description: 'Loops and conditionals', materials: 5 },
+                { id: 4, name: 'Functions and Methods', description: 'Creating reusable code', materials: 3 },
+                { id: 5, name: 'Object-Oriented Programming', description: 'OOP principles', materials: 6 }
+            ],
+            2: [
+                { id: 6, name: 'Integration Techniques', description: 'Various integration methods', materials: 5 },
+                { id: 7, name: 'Applications of Integration', description: 'Real-world applications', materials: 4 },
+                { id: 8, name: 'Differential Equations', description: 'Solving differential equations', materials: 5 },
+                { id: 9, name: 'Series and Sequences', description: 'Infinite series', materials: 4 }
+            ]
+        };
+
+        const sectionMaterials = {
+            1: [
+                { id: 1, title: 'Introduction to Programming - Lecture 1', type: 'pdf', size: '2.5 MB', uploaded: '2025-01-15', status: 'active', description: 'Basic programming concepts overview' },
+                { id: 2, title: 'Hello World Tutorial', type: 'video', size: '15.2 MB', uploaded: '2025-01-15', status: 'active', description: 'Step-by-step first program' },
+                { id: 3, title: 'Programming Exercises Set 1', type: 'document', size: '1.8 MB', uploaded: '2025-01-16', status: 'active', description: 'Practice problems' }
+            ]
+        };
+
+        let currentCourse = null;
+        let currentSection = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're loading a specific course from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('courseId');
+            
+            if (courseId) {
+                // We're viewing a specific course
+                loadCourseFromParams();
+            } else {
+                // Default: show course list
+                loadCourses();
+            }
+        });
+
+        // Load courses in the grid
+        function loadCourses() {
+    const courseGrid = document.getElementById('courseGrid');
+    courseGrid.innerHTML = `
+    <div class="course-loading-spinner">
+        <div class="spinner-border" role="status"></div>
+        <div>Loading courses, please wait...</div>
+    </div>
+`;
+    $.ajax({
+        type: "POST",
+        url: "Material.aspx/GetCourses",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response) {
+            if (response.d && response.d.success) {
+                const courses = response.d.data;
+                courseGrid.innerHTML = '';
+                if (courses.length === 0) {
+                    courseGrid.innerHTML = '<div class="text-center text-muted py-4">No courses found.</div>';
+                    return;
+                }
+                courses.forEach(course => {
+                    const courseCard = document.createElement('div');
+                    courseCard.className = 'course-card';
+                    courseCard.onclick = () => showCourseDetails(course);
+
+                    courseCard.innerHTML = `
+                        <div class="course-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5>${course.name}</h5>
+                        <p class="text-muted mb-2">${course.code}</p>
+                        <p class="small text-muted">${course.description}</p>
+                        <div class="course-meta">
+                            <span class="sections-count">
+                                <i class="fas fa-list me-1"></i>
+                                ${course.sections} sections
+                            </span>
+                            <span class="materials-count">
+                                ${course.materials} materials
+                            </span>
+                        </div>
+                    `;
+                    courseGrid.appendChild(courseCard);
+                });
+            } else {
+                courseGrid.innerHTML = '<div class="text-danger py-4">Failed to load courses.</div>';
+            }
+        },
+        error: function() {
+            courseGrid.innerHTML = '<div class="text-danger py-4">Error loading courses.</div>';
+        }
+    });
+}
+
+        // Show course details and sections
+        function showCourseDetails(course) {
+            // Store course data in sessionStorage for the new page
+            sessionStorage.setItem('selectedCourse', JSON.stringify(course));
+            
+            // Navigate to course details page
+            window.location.href = `CourseDetails.aspx?courseId=${course.id}&courseName=${encodeURIComponent(course.name)}`;
+        }
+
+        // Function to load course details from URL parameters (for when coming from another page)
+        function loadCourseFromParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('courseId');
+            
+            if (courseId) {
+                // Try to get course from sessionStorage first
+                const storedCourse = sessionStorage.getItem('selectedCourse');
+                if (storedCourse) {
+                    const course = JSON.parse(storedCourse);
+                    displayCourseDetails(course);
+                } else {
+                    // Fallback: find course by ID
+                    const course = courses.find(c => c.id == courseId);
+                    if (course) {
+                        displayCourseDetails(course);
+                    }
+                }
+            }
+        }
+
+        // Display course details (separated from navigation logic)
+        function displayCourseDetails(course) {
+            currentCourse = course;
+            
+            // Update breadcrumb
+            document.getElementById('breadcrumb').innerHTML = `
+                <li class="breadcrumb-item"><a href="Material.aspx">All Courses</a></li>
+                <li class="breadcrumb-item active">${course.name}</li>
+            `;
+            
+            // Update course info
+            document.getElementById('selectedCourseTitle').textContent = course.name;
+            document.getElementById('selectedCourseDesc').textContent = `${course.code} - ${course.description}`;
+            document.getElementById('totalSections').textContent = course.sections;
+            document.getElementById('totalMaterials').textContent = course.materials;
+            
+            // Load sections
+            loadCourseSections(course.id);
+            
+            // Switch views
+            document.getElementById('courseListView').classList.remove('view-active');
+            document.getElementById('courseDetailsView').classList.add('view-active');
+            document.getElementById('materialManagementView').classList.remove('view-active');
+        }
+
+        // Load course sections
+        function loadCourseSections(courseId) {
+            const sectionsGrid = document.getElementById('sectionsGrid');
+            sectionsGrid.innerHTML = '';
+            
+            const sections = courseSections[courseId] || [];
+            
+            sections.forEach(section => {
+                const sectionCard = document.createElement('div');
+                sectionCard.className = 'section-card';
+                
+                sectionCard.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">${section.name}</h6>
+                            <small class="text-muted">${section.materials} materials</small>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-3">${section.description}</p>
+                    <div class="section-actions">
+                        <button class="btn-action btn-view" onclick="showMaterials(${section.id}, '${section.name}', '${section.description}')">
+                            <i class="fas fa-eye me-1"></i>View Materials
+                        </button>
+                        <button class="btn-action btn-add" onclick="showMaterials(${section.id}, '${section.name}', '${section.description}')">
+                            <i class="fas fa-plus me-1"></i>Add Material
+                        </button>
+                    </div>
+                `;
+                
+                sectionsGrid.appendChild(sectionCard);
+            });
+        }
+
+        // Show materials for a section
+        function showMaterials(sectionId, sectionName, sectionDesc) {
+            currentSection = sectionId;
+            
+            // Update breadcrumb
+            document.getElementById('breadcrumb').innerHTML = `
+                <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showCourseList()">All Courses</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showCourseDetails(currentCourse)">${currentCourse.name}</a></li>
+                <li class="breadcrumb-item active">${sectionName}</li>
+            `;
+            
+            // Update section info
+            document.getElementById('sectionTitle').textContent = sectionName;
+            document.getElementById('sectionDescription').textContent = sectionDesc;
+            
+            // Load materials
+            loadSectionMaterials(sectionId);
+            
+            // Switch views
+            document.getElementById('courseListView').classList.remove('view-active');
+            document.getElementById('courseDetailsView').classList.remove('view-active');
+            document.getElementById('materialManagementView').classList.add('view-active');
+        }
+
+        // Load materials for a section
+        function loadSectionMaterials(sectionId) {
+            const tableBody = document.getElementById('materialsTableBody');
+            tableBody.innerHTML = '';
+            
+            const materials = sectionMaterials[sectionId] || [];
+            
+            if (materials.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-muted">
+                            <i class="fas fa-folder-open fa-2x mb-2 d-block"></i>
+                            No materials found. Click "Upload Material" to add some.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            materials.forEach(material => {
+                const row = document.createElement('tr');
+                
+                const fileIcon = getFileIcon(material.type);
+                const statusClass = material.status === 'active' ? 'success' : material.status === 'draft' ? 'warning' : 'secondary';
+                
+                row.innerHTML = `
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="file-icon file-${material.type}">
+                                <i class="${fileIcon}"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">${material.title}</div>
+                                <small class="text-muted">${material.description}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge bg-light text-dark">${material.type.toUpperCase()}</span>
+                    </td>
+                    <td>${material.size}</td>
+                    <td>${material.uploaded}</td>
+                    <td>
+                        <span class="badge bg-${statusClass}">${material.status}</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm-custom btn-outline-primary" onclick="downloadMaterial(${material.id})">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn btn-sm-custom btn-outline-warning" onclick="editMaterial(${material.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm-custom btn-outline-danger" onclick="deleteMaterial(${material.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Helper function to get file icon
+        function getFileIcon(type) {
+            const icons = {
+                pdf: 'fas fa-file-pdf',
+                video: 'fas fa-play-circle',
+                document: 'fas fa-file-word',
+                presentation: 'fas fa-file-powerpoint',
+                image: 'fas fa-file-image',
+                other: 'fas fa-file'
+            };
+            return icons[type] || icons.other;
+        }
+
+        // Navigation functions
+        function showCourseList() {
+            // Navigate back to main material page
+            window.location.href = 'Material.aspx';
+        }
+
+        // Material management functions
+        function uploadMaterial() {
+            const form = document.getElementById('addMaterialForm');
+            if (form.checkValidity()) {
+                alert('Material uploaded successfully!');
+                bootstrap.Modal.getInstance(document.getElementById('addMaterialModal')).hide();
+                form.reset();
+                // Reload materials
+                loadSectionMaterials(currentSection);
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        function editMaterial(id) {
+            // In a real app, you'd load the material data
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('editMaterialModal')).show();
+        }
+
+        function updateMaterial() {
+            alert('Material updated successfully!');
+            bootstrap.Modal.getInstance(document.getElementById('editMaterialModal')).hide();
+            loadSectionMaterials(currentSection);
+        }
+
+        function deleteMaterial(id) {
+            if (confirm('Are you sure you want to delete this material?')) {
+                alert('Material deleted successfully!');
+                loadSectionMaterials(currentSection);
+            }
+        }
+
+        function downloadMaterial(id) {
+            alert('Downloading material...');
+        }
+
+        function addSection() {
+            const form = document.getElementById('addSectionForm');
+            if (form.checkValidity()) {
+                alert('Section added successfully!');
+                bootstrap.Modal.getInstance(document.getElementById('addSectionModal')).hide();
+                form.reset();
+                // Reload sections
+                loadCourseSections(currentCourse.id);
+            } else {
+                form.reportValidity();
+            }
+        }
+    </script>
+</asp:Content>

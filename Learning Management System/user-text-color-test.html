@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Text Color Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="fontawesome-free-6.7.2-web/css/all.min.css" />
+    <style>
+        /* CSS Variables matching Admin.Master */
+        :root {
+            --primary-blue: #667eea;
+            --primary-blue-rgb: 102, 126, 234;
+            --secondary-blue: #764ba2;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --success-green: #10b981;
+            --success-green-rgb: 16, 185, 129;
+            --dark-bg: #0f172a;
+            --dark-surface: #1e293b;
+            --dark-border: #334155;
+            --dark-text: #f1f5f9;
+            --dark-text-secondary: #cbd5e1;
+            --dark-primary: #818cf8;
+            --dark-secondary: #a855f7;
+            --dark-hover: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            margin: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-header p {
+            margin: 0.75rem 0 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .test-section {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            padding: 0.875rem 1rem 0.875rem 3.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 25px;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            font-size: 1.1rem;
+        }
+
+        .user-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-basic-info h5 {
+            margin: 0 0 0.5rem 0;
+            color: var(--gray-800);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-basic-info .email {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-theme .page-header {
+            background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
+        }
+
+        body.dark-theme .test-section,
+        body.dark-theme .user-card {
+            background: var(--dark-surface);
+            border-color: var(--dark-border);
+        }
+
+        body.dark-theme .search-box input {
+            background: var(--dark-surface);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        body.dark-theme .search-box .search-icon {
+            color: var(--dark-text-secondary);
+        }
+
+        body.dark-theme .user-basic-info h5,
+        body.dark-theme .detail-label {
+            color: var(--dark-text);
+        }
+
+        body.dark-theme .user-basic-info .email,
+        body.dark-theme .detail-value {
+            color: var(--dark-text-secondary);
+        }
+
+        body.dark-theme .detail-row {
+            border-color: var(--dark-border);
+        }
+
+        /* Light Theme Text Colors - Explicit */
+        body:not(.dark-theme) .user-basic-info h5,
+        body:not(.dark-theme) .detail-label {
+            color: var(--gray-800) !important;
+        }
+
+        body:not(.dark-theme) .user-basic-info .email,
+        body:not(.dark-theme) .detail-value {
+            color: var(--gray-600) !important;
+        }
+
+        body:not(.dark-theme) .page-header h1,
+        body:not(.dark-theme) .page-header p {
+            color: white !important;
+        }
+
+        body:not(.dark-theme) .search-box .search-icon {
+            color: var(--gray-500) !important;
+        }
+
+        body:not(.dark-theme) .search-box input {
+            color: var(--gray-800) !important;
+        }
+
+        body:not(.dark-theme) .search-box input::placeholder {
+            color: var(--gray-500) !important;
+        }
+
+        body:not(.dark-theme) h2, 
+        body:not(.dark-theme) h3 {
+            color: var(--gray-800) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-users"></i>
+                User Management - Text Color Test
+            </h1>
+            <p>Testing text colors in light and dark mode - User.aspx Integration</p>
+        </div>
+
+        <!-- Test Section -->
+        <div class="test-section">
+            <h2>Text Color Testing</h2>
+            
+            <div class="status info">
+                <strong>Current Theme Status:</strong> <span id="themeStatus">Light Mode</span>
+            </div>
+
+            <!-- Search Box Test -->
+            <h3>Search Box Test</h3>
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search users by name, email, or department...">
+            </div>
+
+            <!-- User Card Test -->
+            <h3>User Card Test</h3>
+            <div class="user-card">
+                <div class="user-basic-info">
+                    <h5>Benedict Amankwa Osei</h5>
+                    <div class="email">benedict.osei@university.edu.gh</div>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <div class="detail-row">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value">+233 54 444 4333</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Department:</span>
+                        <span class="detail-value">Computer Science</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Level:</span>
+                        <span class="detail-value">Level 300</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Text Color Verification</h3>
+            <p><strong>Light Mode:</strong> Text should be dark gray/black on light backgrounds</p>
+            <p><strong>Dark Mode:</strong> Text should be light gray/white on dark backgrounds</p>
+            <p><strong>Header:</strong> Should always be white text on gradient background</p>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeStatus = document.getElementById('themeStatus');
+            
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.className = 'fas fa-sun';
+                themeStatus.textContent = 'Dark Mode';
+                localStorage.setItem('admin-theme', 'dark');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeStatus.textContent = 'Light Mode';
+                localStorage.setItem('admin-theme', 'light');
+            }
+        }
+
+        // Initialize theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('admin-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeStatus = document.getElementById('themeStatus');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-sun';
+                themeStatus.textContent = 'Dark Mode';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeStatus.textContent = 'Light Mode';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learning Management System", "Learning Management System\Learning Management System.csproj", "{CFEDF142-15B0-41C1-B7D3-771A4F4B344C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learning Management System.Tests", "Learning Management System.Tests\Learning Management System.Tests.csproj", "{8ABB5BB4-4F85-40F2-A0CC-79BDCA102046}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFEDF142-15B0-41C1-B7D3-771A4F4B344C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFEDF142-15B0-41C1-B7D3-771A4F4B344C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFEDF142-15B0-41C1-B7D3-771A4F4B344C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFEDF142-15B0-41C1-B7D3-771A4F4B344C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ABB5BB4-4F85-40F2-A0CC-79BDCA102046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ABB5BB4-4F85-40F2-A0CC-79BDCA102046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ABB5BB4-4F85-40F2-A0CC-79BDCA102046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ABB5BB4-4F85-40F2-A0CC-79BDCA102046}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B214492E-7804-48B5-A282-5D925D7DA89A}
+	EndGlobalSection
+EndGlobal

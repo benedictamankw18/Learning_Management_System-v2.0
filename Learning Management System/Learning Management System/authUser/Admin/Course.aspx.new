@@ -1,0 +1,9 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/authUser/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Course.aspx.cs" Inherits="Learning_Management_System.authUser.Admin.User1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <!-- Content from original file, unchanged -->
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <!-- Content from original file, unchanged -->
+</asp:Content>

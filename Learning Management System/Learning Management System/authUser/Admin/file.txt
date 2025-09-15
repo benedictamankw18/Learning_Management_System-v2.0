@@ -1,0 +1,318 @@
+function sortTable(columnIndex) {
+            try {
+                console.log(`🔍 Starting sort for column ${columnIndex}`);
+                
+                const table = document.getElementById('courseTable');
+                if (!table) {
+                    console.error('❌ Course table not found');
+                    return;
+                }
+                
+                const tbody = table.querySelector('tbody');
+                if (!tbody) {
+                    console.error('❌ Table body not found');
+                    return;
+                }
+                
+                // Get all data rows (exclude loading and no-data rows)
+                const rows = Array.from(tbody.querySelectorAll('tr:not(.loading-row):not(.no-data-row)'));
+                console.log(`📊 Found ${rows.length} rows to sort`);
+                
+                if (rows.length === 0) {
+                    console.warn('⚠️ No rows to sort');
+                    showToast('No data available to sort', 'warning');
+                    return;
+                }
+                
+                // Determine sort direction
+                const currentDirection = sortDirection[columnIndex] || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+                sortDirection[columnIndex] = newDirection;
+                
+                console.log(`🔄 Sorting direction: ${currentDirection} → ${newDirection}`);
+                
+                // Update sort icons
+                document.querySelectorAll('.sortable i').forEach(icon => {
+                    icon.className = 'fa fa-sort ms-1 text-muted';
+                });
+                
+                const headerIcon = document.querySelector(`[onclick*="sortTable(${columnIndex})"] i`);
+                if (headerIcon) {
+                    headerIcon.className = `fa fa-sort-${newDirection === 'asc' ? 'up' : 'down'} ms-1 text-primary`;
+                    console.log(`🎯 Updated sort icon for column ${columnIndex}`);
+                } else {
+                    console.warn(`⚠️ Sort icon not found for column ${columnIndex}`);
+                }
+                
+                // Validate column index
+                if (columnIndex < 0 || columnIndex >= rows[0].cells.length) {
+                    console.error(`❌ Invalid column index: ${columnIndex}`);
+                    showToast(`Invalid column index: ${columnIndex}`, 'error');
+                    return;
+                }
+                
+                // Sort the rows
+                rows.sort((a, b) => {
+                    try {
+                        let aVal = a.cells[columnIndex] ? a.cells[columnIndex].textContent.trim() : '';
+                        let bVal = b.cells[columnIndex] ? b.cells[columnIndex].textContent.trim() : '';
+                        
+                        // Handle numeric columns (Credits=4 and Enrolled=6)
+                        if (columnIndex === 4 || columnIndex === 6) {
+                            aVal = parseInt(aVal) || 0;
+                            bVal = parseInt(bVal) || 0;
+                            console.log(`🔢 Numeric sort: ${aVal} vs ${bVal}`);
+                        } else {
+                            aVal = aVal.toLowerCase();
+                            bVal = bVal.toLowerCase();
+                            console.log(`🔤 Text sort: "${aVal}" vs "${bVal}"`);
+                        }
+                        
+                        if (aVal < bVal) return newDirection === 'asc' ? -1 : 1;
+                        if (aVal > bVal) return newDirection === 'asc' ? 1 : -1;
+                        return 0;
+                    } catch (sortError) {
+                        console.error('❌ Error during row comparison:', sortError);
+                        return 0;
+                    }
+                });
+                
+                // Re-append sorted rows with animation
+                rows.forEach((row, index) => {
+                    tbody.appendChild(row);
+                    // Add subtle animation
+                    row.style.transition = 'background-color 0.3s ease';
+                    row.style.backgroundColor = '#f8f9fa';
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 200 + (index * 20));
+                });
+                
+                // Show feedback
+                const columnNames = ['', 'Course Code', 'Course Name', 'Department', 'Credits', 'Instructor', 'Enrolled', 'Status'];
+                const columnName = columnNames[columnIndex] || `Column ${columnIndex}`;
+                const message = `✅ Table sorted by ${columnName} (${newDirection === 'asc' ? 'ascending' : 'descending'})`;
+                
+                console.log(`🎉 ${message}`);
+                showToast(message, 'success');
+                
+            } catch (error) {
+                console.error('❌ Error in sortTable:', error);
+                showToast('An error occurred while sorting the table', 'error');
+            }
+        }
+
+
+
+
+
+
+
+
+        function sortTable(columnName, headerElement) {
+            const table = document.querySelector('#courseTable');
+            const tableBody = document.querySelector('#courseTableBody');
+            const rows = Array.from(tableBody.querySelectorAll('tr.course-row'));
+            
+            // Get the header element if not provided
+            const header = headerElement || document.querySelector(`th[data-column="${columnName}"]`);
+            if (!header) return;
+            
+            // Remove sort indicators from all headers
+            document.querySelectorAll('th[data-column]').forEach(th => {
+                th.querySelector('.sort-indicator')?.remove();
+            });
+            
+            // Add sort indicator to current header
+            <%-- const sortIndicator = document.createElement('span');
+            sortIndicator.className = 'sort-indicator ms-1'; --%>
+            
+            // Determine sort direction
+            const currentDirection = header.getAttribute('data-sort') || 'asc';
+            const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+            header.setAttribute('data-sort', newDirection);
+            
+            sortIndicator.innerHTML = newDirection === 'asc' ? 
+                '<i class="fas fa-sort-up"></i>' : 
+                '<i class="fas fa-sort-down"></i>';
+            element.appendChild(sortIndicator);
+
+            // Remove sort indicators from all headers
+            document.querySelectorAll('th[data-column]').forEach(th => {
+                const existingIndicator = th.querySelector('.sort-indicator');
+                if (existingIndicator) {
+                    existingIndicator.remove();
+                }
+            });
+
+            // Add sort indicator to current header
+            const sortIndicator = document.createElement('span');
+            sortIndicator.className = 'sort-indicator ms-1';
+            sortIndicator.innerHTML = newDirection === 'asc' ? 
+                '<i class="fas fa-sort-up"></i>' : 
+                '<i class="fas fa-sort-down"></i>';
+            
+            if (header) {
+                header.appendChild(sortIndicator);
+            }
+
+            // Sort the rows
+            rows.sort((a, b) => {
+                let aValue, bValue;
+                
+                switch(columnName) {
+                    case 'courseCode':
+                        aValue = a.querySelector('.course-code-badge')?.textContent || '';
+                        bValue = b.querySelector('.course-code-badge')?.textContent || '';
+                        break;
+                    case 'courseName':
+                        aValue = a.querySelector('.fw-semibold')?.textContent || '';
+                        bValue = b.querySelector('.fw-semibold')?.textContent || '';
+                        break;
+                    case 'department':
+                        aValue = a.querySelector('.department-badge')?.textContent || '';
+                        bValue = b.querySelector('.department-badge')?.textContent || '';
+                        break;
+                    case 'credits':
+                        aValue = parseInt(a.querySelector('.badge.bg-light')?.textContent || '0');
+                        bValue = parseInt(b.querySelector('.badge.bg-light')?.textContent || '0');
+                        return newDirection === 'asc' ? aValue - bValue : bValue - aValue;
+                    case 'instructor':
+                        aValue = a.querySelector('.instructor-cell')?.textContent?.trim() || '';
+                        bValue = b.querySelector('.instructor-cell')?.textContent?.trim() || '';
+                        break;
+                    case 'enrolled':
+                        aValue = parseInt(a.querySelector('.enrollment-count')?.textContent || '0');
+                        bValue = parseInt(b.querySelector('.enrollment-count')?.textContent || '0');
+                        return newDirection === 'asc' ? aValue - bValue : bValue - aValue;
+                    case 'status':
+                        aValue = a.querySelector('.status-badge')?.textContent?.trim() || '';
+                        bValue = b.querySelector('.status-badge')?.textContent?.trim() || '';
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                // String comparison for non-numeric values
+                if (newDirection === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
+            });
+
+            // Reinsert sorted rows
+            rows.forEach(row => tableBody.appendChild(row));
+        }
+
+
+
+
+
+        
+        // Enhanced Table Sorting Functionality
+        // Using the global sortDirectionState object defined earlier
+        
+        function sortTable(columnIndex) {
+            try {
+                console.log(`🔍 Starting sort for column ${columnIndex}`);
+                
+                const table = document.getElementById('courseTable');
+                if (!table) {
+                    console.error('❌ Course table not found');
+                    return;
+                }
+                
+                const tbody = table.querySelector('tbody');
+                if (!tbody) {
+                    console.error('❌ Table body not found');
+                    return;
+                }
+                
+                // Get all data rows (exclude loading and no-data rows)
+                const rows = Array.from(tbody.querySelectorAll('tr:not(.loading-row):not(.no-data-row)'));
+                console.log(`📊 Found ${rows.length} rows to sort`);
+                
+                if (rows.length === 0) {
+                    console.warn('⚠️ No rows to sort');
+                    showToast('No data available to sort', 'warning');
+                    return;
+                }
+                
+                // Determine sort direction
+                const currentDirection = sortDirectionState[columnIndex] || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+                sortDirectionState[columnIndex] = newDirection;
+                
+                console.log(`🔄 Sorting direction: ${currentDirection} → ${newDirection}`);
+                
+                // Update sort icons
+                document.querySelectorAll('.sortable i').forEach(icon => {
+                    icon.className = 'fa fa-sort ms-1 text-muted';
+                });
+                
+                const headerIcon = document.querySelector(`[onclick*="sortTable(${columnIndex})"] i`);
+                if (headerIcon) {
+                    headerIcon.className = `fa fa-sort-${newDirection === 'asc' ? 'up' : 'down'} ms-1 text-primary`;
+                    console.log(`🎯 Updated sort icon for column ${columnIndex}`);
+                } else {
+                    console.warn(`⚠️ Sort icon not found for column ${columnIndex}`);
+                }
+                
+                // Validate column index
+                if (columnIndex < 0 || columnIndex >= rows[0].cells.length) {
+                    console.error(`❌ Invalid column index: ${columnIndex}`);
+                    showToast(`Invalid column index: ${columnIndex}`, 'error');
+                    return;
+                }
+                
+                // Sort the rows
+                rows.sort((a, b) => {
+                    try {
+                        let aVal = a.cells[columnIndex] ? a.cells[columnIndex].textContent.trim() : '';
+                        let bVal = b.cells[columnIndex] ? b.cells[columnIndex].textContent.trim() : '';
+                        
+                        // Handle numeric columns (Credits=4 and Enrolled=6)
+                        if (columnIndex === 4 || columnIndex === 6) {
+                            aVal = parseInt(aVal) || 0;
+                            bVal = parseInt(bVal) || 0;
+                            console.log(`🔢 Numeric sort: ${aVal} vs ${bVal}`);
+                        } else {
+                            aVal = aVal.toLowerCase();
+                            bVal = bVal.toLowerCase();
+                            console.log(`🔤 Text sort: "${aVal}" vs "${bVal}"`);
+                        }
+                        
+                        if (aVal < bVal) return newDirection === 'asc' ? -1 : 1;
+                        if (aVal > bVal) return newDirection === 'asc' ? 1 : -1;
+                        return 0;
+                    } catch (sortError) {
+                        console.error('❌ Error during row comparison:', sortError);
+                        return 0;
+                    }
+                });
+                
+                // Re-append sorted rows with animation
+                rows.forEach((row, index) => {
+                    tbody.appendChild(row);
+                    // Add subtle animation
+                    row.style.transition = 'background-color 0.3s ease';
+                    row.style.backgroundColor = '#f8f9fa';
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 200 + (index * 20));
+                });
+                
+                // Show feedback
+                const columnNames = ['', 'Course Code', 'Course Name', 'Department', 'Credits', 'Instructor', 'Enrolled', 'Status'];
+                const columnName = columnNames[columnIndex] || `Column ${columnIndex}`;
+                const message = `✅ Table sorted by ${columnName} (${newDirection === 'asc' ? 'ascending' : 'descending'})`;
+                
+                console.log(`🎉 ${message}`);
+                showToast(message, 'success');
+                
+            } catch (error) {
+                console.error('❌ Error in sortTable:', error);
+                showToast('An error occurred while sorting the table', 'error');
+            }
+        }

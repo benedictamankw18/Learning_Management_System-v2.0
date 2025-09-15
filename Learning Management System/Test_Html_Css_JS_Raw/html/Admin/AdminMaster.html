@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="../../css/bootstrap-5.2.3-dist/css/bootstrap.css"
+    />
+    <script src="../../css/bootstrap-5.2.3-dist/js/bootstrap.js"></script>
+    <link
+      rel="stylesheet"
+      href="../../css/fontawesome-free-6.7.2-web/css/all.css"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../../css/AdminMaster.css" />
+  </head>
+  <body>
+    <header id="header" class="header">
+      <div class="header-banner"></div>
+      <div class="header-content">
+        <div class="header-logo">
+          <img src="../../images/uewDash.png" alt="" />
+        </div>
+        <div class="header-Search">
+          <input type="text" placeholder="Search..." />
+          <div class="search-icon">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <div class="search-icon-bg">Search</div>
+          </div>
+        </div>
+        <div class="header-user">
+          <span class="profile-username">User</span>
+          <div class="user-icon">
+            <img
+              src="../../images/ProfileUew.png"
+              class="User-Profile"
+              aria-hidden="true"
+            />
+            <div class="user-icon-bg">
+              <i class="fa fa-caret-down icon" aria-hidden="true"></i>
+            </div>
+            <div class="drop-profile">
+              <a href="#" class="drop-profile-item">Profile</a>
+              <a href="#" class="drop-profile-item">Grade</a>
+              <a href="#" class="drop-profile-item">Accessibility</a>
+              <a href="#" class="drop-profile-item">Setting</a>
+              <a href="#" class="drop-profile-item">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main" id="main">
+      <aside class="sidebar" id="sidebar">
+        <div class="nav-bar-toggle">
+          <button
+            class="mobile-menu-toggle md:hidden"
+            aria-label="Toggle mobile menu"
+          >
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+        <div class="space-btn"></div>
+        <div class="side-menu">
+          <a href="#" class="menu-item">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="#" class="menu-item" onclick="User()">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <span>Users</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fa fa-user-graduate" aria-hidden="true"></i>
+            <span>Course</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fa fa-tools" aria-hidden="true"></i>
+            <span>Material</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fa fa-book" aria-hidden="true"></i>
+            <span>Quiz</span>
+          </a>
+          <a href="Reports.html" class="menu-item">
+            <i class="fa fa-clipboard-list" aria-hidden="true"></i>
+            <span>Reports</span>
+          </a>
+        </div>
+      </aside>
+
+      <div class="wholepage" id="wholepage">
+        <!-- Added id="main-content" to allow adding  -->
+        <div id="main-content">
+          <p>HELLO</p>
+        </div>
+
+        <footer>
+          <p>Footer</p>
+        </footer>
+      </div>
+    </main>
+
+    <script src="../../js/AdminMaster.js"></script>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Image Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .image-test {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .image-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 2px solid #3498db;
+        }
+        .status {
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .log {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Profile Image Handler Test</h1>
+        <p>This page tests the ProfileImageHandler to verify it's returning images correctly.</p>
+        
+        <div class="image-test">
+            <h2>Test User ID: 1008</h2>
+            <div class="image-container">
+                <img title="image1" class="profile-image" src="/authUser/Admin/ProfileImageHandler.ashx?UserID=1008&t=1" 
+                     onerror="this.onerror=null; this.src='Assest/Images/user.png'; document.getElementById('status1').innerHTML='Error loading image'; document.getElementById('status1').className='status error';"
+                     onload="document.getElementById('status1').innerHTML='Image loaded successfully'; document.getElementById('status1').className='status success';">
+                <button onclick="reloadImage('image1', 1008)">Reload Image</button>
+                <span id="status1" class="status">Loading...</span>
+            </div>
+            <div class="log" id="log1"></div>
+        </div>
+        
+        <div class="image-test">
+            <h2>Test User ID: 1010</h2>
+            <div class="image-container">
+                <img title="image1" id="image2" class="profile-image" src="/authUser/Admin/ProfileImageHandler.ashx?UserID=1010&t=1" 
+                     onerror="this.onerror=null; this.src='Assest/Images/user.png'; document.getElementById('status2').innerHTML='Error loading image'; document.getElementById('status2').className='status error';"
+                     onload="document.getElementById('status2').innerHTML='Image loaded successfully'; document.getElementById('status2').className='status success';">
+                <button onclick="reloadImage('image2', 1010)">Reload Image</button>
+                <span id="status2" class="status">Loading...</span>
+            </div>
+            <div class="log" id="log2"></div>
+        </div>
+        
+        <div class="image-test">
+            <h2>Default User Image</h2>
+            <div class="image-container">
+                <img title="image1" id="image3" class="profile-image" src="Assest/Images/user.png" 
+                     onerror="document.getElementById('status3').innerHTML='Error loading default image'; document.getElementById('status3').className='status error';"
+                     onload="document.getElementById('status3').innerHTML='Default image loaded successfully'; document.getElementById('status3').className='status success';">
+                <button onclick="this.parentNode.querySelector('img').src='Assest/Images/user.png?t=' + new Date().getTime()">Reload Default</button>
+                <span id="status3" class="status">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function reloadImage(imageId, userId) {
+            const img = document.getElementById(imageId);
+            const statusId = 'status' + imageId.charAt(imageId.length-1);
+            const logId = 'log' + imageId.charAt(imageId.length-1);
+            const timestamp = new Date().getTime();
+            
+            document.getElementById(statusId).innerHTML = 'Loading...';
+            document.getElementById(statusId).className = 'status';
+            
+            // Log the attempt
+            logMessage(logId, `Attempting to load image for UserID=${userId} at ${new Date().toLocaleTimeString()}`);
+            
+            // Create a new image to test loading
+            const testImg = new Image();
+            testImg.onload = function() {
+                logMessage(logId, `Image loaded successfully: ${this.width}x${this.height} pixels`);
+                img.src = `/authUser/Admin/ProfileImageHandler.ashx?UserID=${userId}&t=${timestamp}`;
+            };
+            testImg.onerror = function() {
+                logMessage(logId, `Error loading image: ${this.src}`);
+                img.src = 'Assest/Images/user.png';
+                document.getElementById(statusId).innerHTML = 'Error loading image';
+                document.getElementById(statusId).className = 'status error';
+            };
+            
+            testImg.src = `/authUser/Admin/ProfileImageHandler.ashx?UserID=${userId}&t=${timestamp}`;
+        }
+        
+        function logMessage(logId, message) {
+            const log = document.getElementById(logId);
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // Initialize logs
+        window.onload = function() {
+            logMessage('log1', 'Page loaded, testing image loading...');
+            logMessage('log2', 'Page loaded, testing image loading...');
+        };
+    </script>
+</body>
+</html>

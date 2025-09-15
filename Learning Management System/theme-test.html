@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course.aspx Theme Test</title>
+    <link rel="stylesheet" href="Learning Management System/Assest/css/course.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button class="btn btn-primary" onclick="toggleTheme()">
+            🌙 Toggle Theme
+        </button>
+    </div>
+
+    <div class="course-container">
+        <div class="course-header">
+            <h1 class="course-title">Course Management</h1>
+            <button class="btn-primary-custom">Add New Course</button>
+        </div>
+
+        <div class="search-filter-section">
+            <h3>Search & Filter</h3>
+            <input type="text" class="form-control" placeholder="Search courses..." style="margin-bottom: 10px;">
+            <select class="form-select">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+        </div>
+
+        <div class="course-stats">
+            <div class="stat-card">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Total Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">Active Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">156</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+        </div>
+
+        <div class="course-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Instructor</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CS101</td>
+                        <td>Introduction to Programming</td>
+                        <td>Dr. Smith</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-outline-primary btn-sm-custom">Edit</button>
+                                <button class="btn btn-outline-danger btn-sm-custom">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CS102</td>
+                        <td>Data Structures</td>
+                        <td>Prof. Johnson</td>
+                        <td><span class="status-badge status-draft">Draft</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-outline-primary btn-sm-custom">Edit</button>
+                                <button class="btn btn-outline-danger btn-sm-custom">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management - Same as Course.aspx
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the saved theme from localStorage (same key as Admin.Master)
+            const savedTheme = localStorage.getItem('admin-theme');
+            
+            // Apply the theme class to the body
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                console.log('Dark theme applied');
+            } else {
+                document.body.classList.remove('dark-theme');
+                console.log('Light theme applied');
+            }
+            
+            updateToggleButton();
+        });
+
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('admin-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            localStorage.setItem('admin-theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                console.log('Switched to dark theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+                console.log('Switched to light theme');
+            }
+            
+            updateToggleButton();
+        }
+
+        function updateToggleButton() {
+            const btn = document.querySelector('.theme-toggle button');
+            const currentTheme = localStorage.getItem('admin-theme');
+            
+            if (currentTheme === 'dark') {
+                btn.innerHTML = '☀️ Light Mode';
+            } else {
+                btn.innerHTML = '🌙 Dark Mode';
+            }
+        }
+    </script>
+</body>
+</html>

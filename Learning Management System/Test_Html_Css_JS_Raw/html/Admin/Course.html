@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management - - Learning Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/bootstrap-5.2.3-dist/css/bootstrap.css">
+    <script src="../../css/bootstrap-5.2.3-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../css/fontawesome-free-6.7.2-web/css/all.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/AdminMaster.css">
+    <link rel="stylesheet" href="../../css/course.css">
+</head>
+<body>
+    <!-- <header id="header" class="header">
+        <div class="header-banner"></div>
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="../../images/uewDash.png" alt="UEW Dashboard">
+            </div>
+            <div class="header-Search">
+                <input type="text" placeholder="Search courses...">
+                <div class="search-icon">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <div class="search-icon-bg">Search</div>
+                </div>
+            </div>
+            <div class="header-user">
+                <span class="profile-username">Admin</span>
+                <div class="user-icon">
+                    <img src="../../images/ProfileUew.png" class="User-Profile" aria-hidden="true">
+                    <div class="user-icon-bg">
+                        <i class="fa fa-caret-down icon" aria-hidden="true"></i>
+                    </div>
+                    <div class="drop-profile">
+                        <a href="#" class="drop-profile-item">Profile</a>
+                        <a href="#" class="drop-profile-item">Settings</a>
+                        <a href="#" class="drop-profile-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header> -->
+
+    <main class="main" id="main">
+        <!-- <aside class="sidebar" id="sidebar">
+            <div class="nav-bar-toggle">
+                <button class="mobile-menu-toggle md:hidden" aria-label="Toggle mobile menu">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            <div class="space-btn"></div>
+            <div class="side-menu">
+                <a href="AdminMaster.html" class="menu-item">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="User.html" class="menu-item">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <span>Users</span>
+                </a>
+                <a href="Course.html" class="menu-item active">
+                    <i class="fa fa-user-graduate" aria-hidden="true"></i>
+                    <span>Course</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa fa-tools" aria-hidden="true"></i>
+                    <span>Material</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <span>Quiz</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa fa-clipboard-list" aria-hidden="true"></i>
+                    <span>Report</span>
+                </a>
+            </div>
+        </aside> -->
+
+        <div class="wholepage" id="wholepage">
+            <div id="main-content">
+                <!-- Course Management Header -->
+                <div class="course-container">
+                    <div class="course-header">
+                        <h1 class="course-title">
+                            <i class="fa fa-graduation-cap me-3"></i>
+                            Course Management
+                        </h1>
+                        <button class="btn btn-primary btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+                            <i class="fa fa-plus me-2"></i>Add New Course
+                        </button>
+                    </div>
+
+                    <!-- Course Statistics -->
+                    <div class="course-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">24</div>
+                            <div class="stat-label">Total Courses</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">18</div>
+                            <div class="stat-label">Active Courses</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Draft Courses</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">456</div>
+                            <div class="stat-label">Total Enrollments</div>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filter Section -->
+                    <div class="search-filter-section">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="courseSearch" class="form-label">Search Courses</label>
+                                <input type="text" id="courseSearch" class="form-control" placeholder="Enter course name or code...">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="statusFilter" class="form-label">Status</label>
+                                <select id="statusFilter" class="form-select">
+                                    <option value="">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="departmentFilter" class="form-label">Department</label>
+                                <select id="departmentFilter" class="form-select">
+                                    <option value="">All Departments</option>
+                                    <option value="computer-science">Computer Science</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="education">Education</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3 d-flex align-items-end">
+                                <button class="btn btn-outline-primary w-100" onclick="filterCourses()">
+                                    <i class="fa fa-filter me-2"></i>Filter
+                                </button>
+                            </div>
+                            <div class="col-md-12 mb-3 text-center">
+                                <a href="QuizSubmissions.html" class="btn btn-success me-3">
+                                    <i class="fa fa-clipboard-list me-2"></i>View Quiz Submissions
+                                </a>
+                                <a href="Quiz.html" class="btn btn-info">
+                                    <i class="fa fa-question-circle me-2"></i>Manage Quizzes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Table -->
+                    <div class="course-table">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" id="courseTable">
+                                <thead>
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                        <th>Department</th>
+                                        <th>Credits</th>
+                                        <th>Instructor</th>
+                                        <th>Enrolled</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>CS101</strong></td>
+                                        <td>Introduction to Computer Science</td>
+                                        <td>Computer Science</td>
+                                        <td>3</td>
+                                        <td>Dr. Kwame Asante</td>
+                                        <td>45</td>
+                                        <td><span class="status-badge status-active">Active</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm btn-outline-primary btn-sm-custom" onclick="viewCourse('CS101')">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning btn-sm-custom" onclick="editCourse('CS101')">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-sm-custom" onclick="deleteCourse('CS101')">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>MATH201</strong></td>
+                                        <td>Calculus II</td>
+                                        <td>Mathematics</td>
+                                        <td>4</td>
+                                        <td>Prof. Ama Osei</td>
+                                        <td>32</td>
+                                        <td><span class="status-badge status-active">Active</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm btn-outline-primary btn-sm-custom" onclick="viewCourse('MATH201')">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning btn-sm-custom" onclick="editCourse('MATH201')">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-sm-custom" onclick="deleteCourse('MATH201')">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>EDU301</strong></td>
+                                        <td>Educational Psychology</td>
+                                        <td>Education</td>
+                                        <td>3</td>
+                                        <td>Dr. Kofi Mensah</td>
+                                        <td>28</td>
+                                        <td><span class="status-badge status-draft">Draft</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm btn-outline-primary btn-sm-custom" onclick="viewCourse('EDU301')">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning btn-sm-custom" onclick="editCourse('EDU301')">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-sm-custom" onclick="deleteCourse('EDU301')">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>BUS205</strong></td>
+                                        <td>Business Ethics</td>
+                                        <td>Business</td>
+                                        <td>2</td>
+                                        <td>Mrs. Akosua Darko</td>
+                                        <td>0</td>
+                                        <td><span class="status-badge status-inactive">Inactive</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm btn-outline-primary btn-sm-custom" onclick="viewCourse('BUS205')">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning btn-sm-custom" onclick="editCourse('BUS205')">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-sm-custom" onclick="deleteCourse('BUS205')">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <nav aria-label="Course pagination">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <footer class="mt-4 text-center text-muted">
+                <p>&copy; 2025 University of Education, Winneba - Learning Management System</p>
+            </footer> -->
+        </div>
+    </main>
+
+    <!-- Add Course Modal -->
+    <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseModalLabel">
+                        <i class="fa fa-plus me-2"></i>Add New Course
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCourseForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="courseCode" class="form-label">Course Code</label>
+                                <input type="text" class="form-control" id="courseCode" placeholder="e.g., CS101" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="courseName" class="form-label">Course Name</label>
+                                <input type="text" class="form-control" id="courseName" placeholder="Course title" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="department" class="form-label">Department</label>
+                                <select class="form-select" id="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="computer-science">Computer Science</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="education">Education</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="credits" class="form-label">Credits</label>
+                                <input type="number" class="form-control" id="credits" min="1" max="6" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="instructor" class="form-label">Instructor</label>
+                                <select class="form-select" id="instructor" required>
+                                    <option value="">Select Instructor</option>
+                                    <option value="dr-kwame-asante">Dr. Kwame Asante</option>
+                                    <option value="prof-ama-osei">Prof. Ama Osei</option>
+                                    <option value="dr-kofi-mensah">Dr. Kofi Mensah</option>
+                                    <option value="mrs-akosua-darko">Mrs. Akosua Darko</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="courseStatus" class="form-label">Status</label>
+                                <select class="form-select" id="courseStatus" required>
+                                    <option value="draft">Draft</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="courseDescription" class="form-label">Course Description</label>
+                            <textarea class="form-control" id="courseDescription" rows="4" placeholder="Enter course description..."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="startDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="endDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-primary-custom" onclick="saveCourse()">
+                        <i class="fa fa-save me-2"></i>Save Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Course Modal -->
+    <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCourseModalLabel">
+                        <i class="fa fa-edit me-2"></i>Edit Course
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCourseForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editCourseCode" class="form-label">Course Code</label>
+                                <input type="text" class="form-control" id="editCourseCode" placeholder="e.g., CS101" required readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCourseName" class="form-label">Course Name</label>
+                                <input type="text" class="form-control" id="editCourseName" placeholder="Course title" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editDepartment" class="form-label">Department</label>
+                                <select class="form-select" id="editDepartment" required>
+                                    <option value="">Select Department</option>
+                                    <option value="computer-science">Computer Science</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="education">Education</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCredits" class="form-label">Credits</label>
+                                <input type="number" class="form-control" id="editCredits" min="1" max="6" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editInstructor" class="form-label">Instructor</label>
+                                <select class="form-select" id="editInstructor" required>
+                                    <option value="">Select Instructor</option>
+                                    <option value="dr-kwame-asante">Dr. Kwame Asante</option>
+                                    <option value="prof-ama-osei">Prof. Ama Osei</option>
+                                    <option value="dr-kofi-mensah">Dr. Kofi Mensah</option>
+                                    <option value="mrs-akosua-darko">Mrs. Akosua Darko</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editCourseStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editCourseStatus" required>
+                                    <option value="draft">Draft</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCourseDescription" class="form-label">Course Description</label>
+                            <textarea class="form-control" id="editCourseDescription" rows="4" placeholder="Enter course description..."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editStartDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="editStartDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editEndDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="editEndDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-primary-custom" onclick="updateCourse()">
+                        <i class="fa fa-save me-2"></i>Update Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Course Modal -->
+    <div class="modal fade" id="viewCourseModal" tabindex="-1" aria-labelledby="viewCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewCourseModalLabel">
+                        <i class="fa fa-eye me-2"></i>Course Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="course-info-container">
+                        <!-- Course Header Info -->
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h3 class="text-primary mb-1" id="viewCourseName">Course Name</h3>
+                                <p class="text-muted mb-2">
+                                    <strong>Course Code:</strong> <span id="viewCourseCode">CODE</span> |
+                                    <strong>Credits:</strong> <span id="viewCredits">0</span>
+                                </p>
+                                <span id="viewStatusBadge" class="status-badge">Status</span>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="enrollment-info">
+                                    <h4 class="text-primary text-white mb-0" id="viewEnrolled">0</h4>
+                                    <small class="text-white">Students Enrolled</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Details -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label class="form-label"><i class="fa fa-building me-2"></i>Department</label>
+                                    <p class="info-value" id="viewDepartment">-</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label class="form-label"><i class="fa fa-user me-2"></i>Instructor</label>
+                                    <p class="info-value" id="viewInstructor">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Description -->
+                        <div class="mb-4">
+                            <label class="form-label"><i class="fa fa-file-text me-2"></i>Course Description</label>
+                            <div class="description-box p-3 bg-light border rounded" id="viewCourseDescription">
+                                Course description will appear here...
+                            </div>
+                        </div>
+
+                        <!-- Course Timeline -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label class="form-label"><i class="fa fa-calendar-plus me-2"></i>Start Date</label>
+                                    <p class="info-value" id="viewStartDate">-</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label class="form-label"><i class="fa fa-calendar-minus me-2"></i>End Date</label>
+                                    <p class="info-value" id="viewEndDate">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Statistics (Additional Info) -->
+                        <div class="course-stats-view">
+                            <h6 class="text-primary mb-3"><i class="fa fa-chart-bar me-2"></i>Course Statistics</h6>
+                            <div class="row">
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-item text-center p-3 bg-light rounded">
+                                        <div class="stat-number text-primary" id="viewEnrolledCount">0</div>
+                                        <div class="stat-label small">Enrolled</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-item text-center p-3 bg-light rounded">
+                                        <div class="stat-number text-success">0</div>
+                                        <div class="stat-label small">Completed</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-item text-center p-3 bg-light rounded">
+                                        <div class="stat-number text-warning">0</div>
+                                        <div class="stat-label small">In Progress</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-item text-center p-3 bg-light rounded">
+                                        <div class="stat-number text-info" id="viewCreditsValue">0</div>
+                                        <div class="stat-label small">Credits</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning btn-primary-custom" onclick="editCourseFromView()">
+                        <i class="fa fa-edit me-2"></i>Edit Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Course Modal -->
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteCourseModalLabel">
+                        <i class="fa fa-exclamation-triangle me-2"></i>Confirm Course Deletion
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-warning me-2"></i>
+                        <strong>Warning!</strong> This action cannot be undone.
+                    </div>
+                    
+                    <div class="delete-course-info">
+                        <h6 class="text-danger mb-3">You are about to delete the following course:</h6>
+                        
+                        <div class="course-delete-details bg-light p-3 rounded border">
+                            <div class="row mb-2">
+                                <div class="col-sm-4"><strong>Course Code:</strong></div>
+                                <div class="col-sm-8" id="deleteCourseCode">-</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4"><strong>Course Name:</strong></div>
+                                <div class="col-sm-8" id="deleteCourseName">-</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4"><strong>Department:</strong></div>
+                                <div class="col-sm-8" id="deleteDepartment">-</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4"><strong>Instructor:</strong></div>
+                                <div class="col-sm-8" id="deleteInstructor">-</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4"><strong>Enrolled Students:</strong></div>
+                                <div class="col-sm-8">
+                                    <span id="deleteEnrolled" class="fw-bold">0</span>
+                                    <span id="enrolledWarning" class="text-danger ms-2" style="display: none;">
+                                        <i class="fa fa-exclamation-circle"></i> Students will be affected!
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4"><strong>Status:</strong></div>
+                                <div class="col-sm-8">
+                                    <span id="deleteStatusBadge" class="status-badge">Status</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="studentWarningSection" class="alert alert-warning mt-3" style="display: none;">
+                            <i class="fa fa-users me-2"></i>
+                            <strong>Impact Warning:</strong> This course has <span id="studentWarningCount">0</span> enrolled student(s). 
+                            Deleting this course will affect their academic records and progress.
+                        </div>
+
+                        <div class="mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="confirmDeletion">
+                                <label class="form-check-label text-danger fw-bold" for="confirmDeletion">
+                                    I understand that this action cannot be undone
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDeletion()" disabled>
+                        <i class="fa fa-trash me-2"></i>Delete Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+       
+    </style>
+
+    <script src="../../js/AdminMaster.js"></script>
+    <script>
+        // Course management functions
+        function filterCourses() {
+            const searchTerm = document.getElementById('courseSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const departmentFilter = document.getElementById('departmentFilter').value;
+            
+            const table = document.getElementById('courseTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const courseCode = row.cells[0].textContent.toLowerCase();
+                const courseName = row.cells[1].textContent.toLowerCase();
+                const department = row.cells[2].textContent.toLowerCase();
+                const status = row.cells[6].textContent.toLowerCase().trim();
+                
+                const matchesSearch = courseCode.includes(searchTerm) || courseName.includes(searchTerm);
+                // Fix: Use exact match for status filtering
+                const matchesStatus = !statusFilter || status === statusFilter.toLowerCase();
+                const matchesDepartment = !departmentFilter || department.includes(departmentFilter.replace('-', ' '));
+                
+                if (matchesSearch && matchesStatus && matchesDepartment) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+        
+        function viewCourse(courseCode) {
+            // Get course data from table row
+            const table = document.getElementById('courseTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            let courseData = null;
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row.cells[0].textContent.trim() === courseCode) {
+                    courseData = {
+                        code: row.cells[0].textContent.trim(),
+                        name: row.cells[1].textContent.trim(),
+                        department: row.cells[2].textContent.trim(),
+                        credits: row.cells[3].textContent.trim(),
+                        instructor: row.cells[4].textContent.trim(),
+                        enrolled: row.cells[5].textContent.trim(),
+                        status: row.cells[6].textContent.trim()
+                    };
+                    break;
+                }
+            }
+            
+            if (courseData) {
+                // Populate view modal with course data
+                document.getElementById('viewCourseCode').textContent = courseData.code;
+                document.getElementById('viewCourseName').textContent = courseData.name;
+                document.getElementById('viewDepartment').textContent = courseData.department;
+                document.getElementById('viewCredits').textContent = courseData.credits;
+                document.getElementById('viewInstructor').textContent = courseData.instructor;
+                document.getElementById('viewEnrolled').textContent = courseData.enrolled;
+                document.getElementById('viewEnrolledCount').textContent = courseData.enrolled;
+                document.getElementById('viewCreditsValue').textContent = courseData.credits;
+                
+                // Set status badge with appropriate styling
+                const statusBadge = document.getElementById('viewStatusBadge');
+                statusBadge.textContent = courseData.status;
+                statusBadge.className = 'status-badge';
+                
+                if (courseData.status.toLowerCase() === 'active') {
+                    statusBadge.classList.add('status-active');
+                } else if (courseData.status.toLowerCase() === 'inactive') {
+                    statusBadge.classList.add('status-inactive');
+                } else if (courseData.status.toLowerCase() === 'draft') {
+                    statusBadge.classList.add('status-draft');
+                }
+                
+                // Set sample description and dates
+                document.getElementById('viewCourseDescription').innerHTML = `
+                    <strong>${courseData.name}</strong> is a comprehensive course offered by the ${courseData.department} department. 
+                    This ${courseData.credits}-credit course is designed to provide students with in-depth knowledge and practical skills 
+                    in the subject area. The course is currently taught by ${courseData.instructor} and has ${courseData.enrolled} 
+                    students enrolled. Students will engage in various learning activities including lectures, discussions, 
+                    assignments, and practical exercises to achieve the learning objectives.
+                `;
+                
+                // Format and display dates
+                document.getElementById('viewStartDate').textContent = 'September 1, 2025';
+                document.getElementById('viewEndDate').textContent = 'December 15, 2025';
+                
+                // Store current course code for edit function
+                window.currentViewingCourse = courseCode;
+                
+                // Show view modal
+                const viewModal = new bootstrap.Modal(document.getElementById('viewCourseModal'));
+                viewModal.show();
+            }
+        }
+        
+        function editCourseFromView() {
+            // Close view modal
+            const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewCourseModal'));
+            if (viewModal) {
+                viewModal.hide();
+            }
+            
+            // Open edit modal with the same course
+            if (window.currentViewingCourse) {
+                // Small delay to ensure view modal is fully closed
+                setTimeout(() => {
+                    editCourse(window.currentViewingCourse);
+                }, 300);
+            }
+        }
+        
+        function editCourse(courseCode) {
+            // Get course data from table row
+            const table = document.getElementById('courseTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            let courseData = null;
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row.cells[0].textContent.trim() === courseCode) {
+                    courseData = {
+                        code: row.cells[0].textContent.trim(),
+                        name: row.cells[1].textContent.trim(),
+                        department: row.cells[2].textContent.trim(),
+                        credits: row.cells[3].textContent.trim(),
+                        instructor: row.cells[4].textContent.trim(),
+                        enrolled: row.cells[5].textContent.trim(),
+                        status: row.cells[6].textContent.trim()
+                    };
+                    break;
+                }
+            }
+            
+            if (courseData) {
+                // Populate edit form with course data
+                document.getElementById('editCourseCode').value = courseData.code;
+                document.getElementById('editCourseName').value = courseData.name;
+                document.getElementById('editCredits').value = courseData.credits;
+                
+                // Set department dropdown
+                const departmentSelect = document.getElementById('editDepartment');
+                for (let option of departmentSelect.options) {
+                    if (option.text.toLowerCase() === courseData.department.toLowerCase()) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+                
+                // Set instructor dropdown based on display name
+                const instructorSelect = document.getElementById('editInstructor');
+                for (let option of instructorSelect.options) {
+                    if (option.text === courseData.instructor) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+                
+                // Set status dropdown
+                const statusSelect = document.getElementById('editCourseStatus');
+                for (let option of statusSelect.options) {
+                    if (option.text.toLowerCase() === courseData.status.toLowerCase()) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+                
+                // Set sample description and dates (in real app, these would come from database)
+                document.getElementById('editCourseDescription').value = `This is the course description for ${courseData.name}.`;
+                document.getElementById('editStartDate').value = '2025-09-01';
+                document.getElementById('editEndDate').value = '2025-12-15';
+                
+                // Show edit modal
+                const editModal = new bootstrap.Modal(document.getElementById('editCourseModal'));
+                editModal.show();
+            }
+        }
+        
+        function updateCourse() {
+            const form = document.getElementById('editCourseForm');
+            if (form.checkValidity()) {
+                const courseCode = document.getElementById('editCourseCode').value;
+                alert(`Course ${courseCode} updated successfully!`);
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editCourseModal'));
+                modal.hide();
+                // In a real application, you would update the table row or refresh the data
+                location.reload();
+            } else {
+                form.reportValidity();
+            }
+        }
+        
+        function deleteCourse(courseCode) {
+            // Get course data from table row for better confirmation message
+            const table = document.getElementById('courseTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            let courseData = null;
+            let rowToDelete = null;
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row.cells[0].textContent.trim() === courseCode) {
+                    courseData = {
+                        code: row.cells[0].textContent.trim(),
+                        name: row.cells[1].textContent.trim(),
+                        department: row.cells[2].textContent.trim(),
+                        instructor: row.cells[4].textContent.trim(),
+                        enrolled: row.cells[5].textContent.trim(),
+                        status: row.cells[6].textContent.trim()
+                    };
+                    rowToDelete = row;
+                    break;
+                }
+            }
+            
+            if (courseData && rowToDelete) {
+                // Store course data for deletion confirmation
+                window.courseToDelete = {
+                    data: courseData,
+                    row: rowToDelete
+                };
+                
+                // Populate delete modal with course data
+                document.getElementById('deleteCourseCode').textContent = courseData.code;
+                document.getElementById('deleteCourseName').textContent = courseData.name;
+                document.getElementById('deleteDepartment').textContent = courseData.department;
+                document.getElementById('deleteInstructor').textContent = courseData.instructor;
+                document.getElementById('deleteEnrolled').textContent = courseData.enrolled;
+                
+                // Set status badge with appropriate styling
+                const statusBadge = document.getElementById('deleteStatusBadge');
+                statusBadge.textContent = courseData.status;
+                statusBadge.className = 'status-badge';
+                
+                if (courseData.status.toLowerCase() === 'active') {
+                    statusBadge.classList.add('status-active');
+                } else if (courseData.status.toLowerCase() === 'inactive') {
+                    statusBadge.classList.add('status-inactive');
+                } else if (courseData.status.toLowerCase() === 'draft') {
+                    statusBadge.classList.add('status-draft');
+                }
+                
+                // Check if course has enrolled students and show warning
+                const enrolledCount = parseInt(courseData.enrolled);
+                const enrolledWarning = document.getElementById('enrolledWarning');
+                const studentWarningSection = document.getElementById('studentWarningSection');
+                const studentWarningCount = document.getElementById('studentWarningCount');
+                
+                if (enrolledCount > 0) {
+                    enrolledWarning.style.display = 'inline';
+                    studentWarningSection.style.display = 'block';
+                    studentWarningCount.textContent = enrolledCount;
+                } else {
+                    enrolledWarning.style.display = 'none';
+                    studentWarningSection.style.display = 'none';
+                }
+                
+                // Reset confirmation checkbox
+                document.getElementById('confirmDeletion').checked = false;
+                document.getElementById('confirmDeleteBtn').disabled = true;
+                
+                // Show delete modal
+                const deleteModal = new bootstrap.Modal(document.getElementById('deleteCourseModal'));
+                deleteModal.show();
+            } else {
+                alert('Course not found!');
+            }
+        }
+        
+        function confirmDeletion() {
+            if (window.courseToDelete) {
+                const { data: courseData, row: rowToDelete } = window.courseToDelete;
+                
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('deleteCourseModal'));
+                modal.hide();
+                
+                // Perform the deletion with animation
+                deleteCourseWithAnimation(rowToDelete, courseData);
+                
+                // Clear the stored data
+                window.courseToDelete = null;
+            }
+        }
+        
+        // Enable/disable delete button based on confirmation checkbox
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmCheckbox = document.getElementById('confirmDeletion');
+            const deleteBtn = document.getElementById('confirmDeleteBtn');
+            
+            if (confirmCheckbox && deleteBtn) {
+                confirmCheckbox.addEventListener('change', function() {
+                    deleteBtn.disabled = !this.checked;
+                });
+            }
+        });
+        
+        function deleteCourseWithAnimation(row, courseData) {
+            // Add deletion animation
+            row.style.transition = 'all 0.5s ease';
+            row.style.backgroundColor = '#f8d7da';
+            row.style.transform = 'scale(0.95)';
+            row.style.opacity = '0.7';
+            
+            // Simulate API call delay and then remove the row
+            setTimeout(() => {
+                // Remove the row from the table
+                row.remove();
+                
+                // Update statistics
+                updateCourseStatistics();
+                
+                // Show success message
+                showDeleteSuccessMessage(courseData);
+                
+                // Log the deletion (in a real app, this would be sent to the server)
+                console.log(`Course ${courseData.code} deleted:`, courseData);
+                
+            }, 500);
+        }
+        
+        function updateCourseStatistics() {
+            // Recalculate statistics after deletion
+            const table = document.getElementById('courseTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            let totalCourses = 0;
+            let activeCourses = 0;
+            let draftCourses = 0;
+            let inactiveCourses = 0;
+            let totalEnrollments = 0;
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row.style.display !== 'none') { // Only count visible rows
+                    totalCourses++;
+                    const status = row.cells[6].textContent.toLowerCase().trim();
+                    const enrolled = parseInt(row.cells[5].textContent.trim()) || 0;
+                    
+                    totalEnrollments += enrolled;
+                    
+                    if (status === 'active') {
+                        activeCourses++;
+                    } else if (status === 'draft') {
+                        draftCourses++;
+                    } else if (status === 'inactive') {
+                        inactiveCourses++;
+                    }
+                }
+            }
+            
+            // Update the statistics cards with animation
+            updateStatCard(0, totalCourses);
+            updateStatCard(1, activeCourses);
+            updateStatCard(2, draftCourses);
+            updateStatCard(3, totalEnrollments);
+        }
+        
+        function updateStatCard(index, newValue) {
+            const statCards = document.querySelectorAll('.stat-card .stat-number');
+            if (statCards[index]) {
+                const card = statCards[index];
+                const currentValue = parseInt(card.textContent);
+                
+                // Animate the number change
+                card.style.transition = 'all 0.3s ease';
+                card.style.transform = 'scale(1.1)';
+                card.style.color = '#ff6b6b';
+                
+                setTimeout(() => {
+                    card.textContent = newValue;
+                    card.style.transform = 'scale(1)';
+                    card.style.color = '';
+                }, 150);
+            }
+        }
+        
+        function showDeleteSuccessMessage(courseData) {
+            // Create and show a custom success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed';
+            alertDiv.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            
+            alertDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fa fa-check-circle me-2 text-success"></i>
+                    <div>
+                        <strong>Course Deleted Successfully!</strong><br>
+                        <small>Course ${courseData.code} (${courseData.name}) has been removed.</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+        
+        function saveCourse() {
+            const form = document.getElementById('addCourseForm');
+            if (form.checkValidity()) {
+                alert('Course saved successfully!');
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addCourseModal'));
+                modal.hide();
+                // Reset form
+                form.reset();
+                // Refresh course list
+                location.reload();
+            } else {
+                form.reportValidity();
+            }
+        }
+        
+        // Real-time search
+        document.getElementById('courseSearch').addEventListener('input', filterCourses);
+        document.getElementById('statusFilter').addEventListener('change', filterCourses);
+        document.getElementById('departmentFilter').addEventListener('change', filterCourses);
+        
+        // Initialize tooltips if using Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

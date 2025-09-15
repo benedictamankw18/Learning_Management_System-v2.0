@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            color: #1f2937;
+        }
+
+        /* Simulate Admin.Master structure */
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .main {
+            display: flex;
+            margin-top: 60px;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: calc(100vh - 60px);
+            background: #1f2937;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 60px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar .nav-bar-toggle {
+            padding: 15px 20px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .mobile-menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .side-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: #374151;
+            color: white;
+            text-decoration: none;
+        }
+
+        .wholepage {
+            flex: 1;
+            margin-left: 0;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Dashboard specific styles */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .dashboard-header {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .test-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 10px;
+                transition: all 0.3s ease;
+            }
+
+            body.mobile-menu-active .container {
+                overflow-x: hidden;
+            }
+
+            body.mobile-menu-active {
+                overflow: hidden;
+            }
+
+            .dashboard-header {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .dashboard-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <strong>Mobile Menu Test</strong>
+        </div>
+        <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars" id="toggleIcon"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- Main Layout -->
+    <div class="main">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="nav-bar-toggle">
+                <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars" id="sidebarToggleIcon"></i>
+                </button>
+            </div>
+            
+            <nav class="side-menu">
+                <a href="#" class="menu-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Courses</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="wholepage">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Mobile Menu Test Dashboard
+                    </h1>
+                </div>
+
+                <div class="test-section">
+                    <h3>Mobile Menu Status</h3>
+                    <div id="status" class="status info">Ready to test</div>
+                    
+                    <p><strong>Instructions:</strong></p>
+                    <ol>
+                        <li>Resize browser to mobile width (≤768px) or use device emulation</li>
+                        <li>Click the hamburger menu button (☰) in the top-right</li>
+                        <li>Sidebar should slide in from the left</li>
+                        <li>Click the overlay or menu button again to close</li>
+                        <li>Test on actual mobile device if possible</li>
+                    </ol>
+
+                    <div id="testResults">
+                        <h4>Test Results:</h4>
+                        <div id="viewportTest" class="status info">Viewport: Desktop</div>
+                        <div id="sidebarTest" class="status info">Sidebar: Closed</div>
+                        <div id="overlayTest" class="status info">Overlay: Hidden</div>
+                        <div id="bodyTest" class="status info">Body overflow: Normal</div>
+                    </div>
+                </div>
+
+                <div class="test-section">
+                    <h3>Dashboard Content</h3>
+                    <p>This content should be accessible when the mobile menu is working correctly.</p>
+                    <p>When the menu is open on mobile, you should not be able to scroll the background content.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // Mobile menu functionality (same as Admin.Master)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const sidebarToggleIcon = document.getElementById('sidebarToggleIcon');
+            
+            updateStatus('Toggle clicked');
+            
+            if (window.innerWidth <= 768) {
+                // Mobile behavior
+                sidebar.classList.toggle('active');
+                mobileOverlay.classList.toggle('active');
+                
+                if (sidebar.classList.contains('active')) {
+                    toggleIcon.className = 'fas fa-times';
+                    sidebarToggleIcon.className = 'fas fa-times';
+                    document.body.style.overflow = 'hidden';
+                    document.body.classList.add('mobile-menu-active');
+                    updateStatus('Mobile menu opened', 'success');
+                } else {
+                    toggleIcon.className = 'fas fa-bars';
+                    sidebarToggleIcon.className = 'fas fa-bars';
+                    document.body.style.overflow = '';
+                    document.body.classList.remove('mobile-menu-active');
+                    updateStatus('Mobile menu closed', 'info');
+                }
+            } else {
+                // Desktop behavior
+                sidebar.classList.toggle('collapsed');
+                updateStatus('Desktop toggle', 'info');
+            }
+            
+            updateTestResults();
+        }
+
+        function closeMobileSidebar() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const mobileOverlay = document.getElementById('mobileOverlay');
+                const toggleIcon = document.getElementById('toggleIcon');
+                const sidebarToggleIcon = document.getElementById('sidebarToggleIcon');
+                
+                sidebar.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                toggleIcon.className = 'fas fa-bars';
+                sidebarToggleIcon.className = 'fas fa-bars';
+                document.body.style.overflow = '';
+                document.body.classList.remove('mobile-menu-active');
+                
+                updateStatus('Mobile menu closed via overlay', 'info');
+                updateTestResults();
+            }
+        }
+
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            status.className = `status ${type}`;
+        }
+
+        function updateTestResults() {
+            const viewport = window.innerWidth <= 768 ? 'Mobile' : 'Desktop';
+            const sidebar = document.getElementById('sidebar').classList.contains('active') ? 'Open' : 'Closed';
+            const overlay = document.getElementById('mobileOverlay').classList.contains('active') ? 'Visible' : 'Hidden';
+            const bodyOverflow = document.body.style.overflow === 'hidden' ? 'Hidden' : 'Normal';
+            
+            document.getElementById('viewportTest').textContent = `Viewport: ${viewport} (${window.innerWidth}px)`;
+            document.getElementById('sidebarTest').textContent = `Sidebar: ${sidebar}`;
+            document.getElementById('overlayTest').textContent = `Overlay: ${overlay}`;
+            document.getElementById('bodyTest').textContent = `Body overflow: ${bodyOverflow}`;
+            
+            // Update status classes
+            const isWorking = (window.innerWidth <= 768 && sidebar === 'Open' && overlay === 'Visible' && bodyOverflow === 'Hidden') ||
+                             (window.innerWidth > 768) ||
+                             (sidebar === 'Closed' && overlay === 'Hidden' && bodyOverflow === 'Normal');
+            
+            const statusClass = isWorking ? 'success' : 'warning';
+            document.querySelectorAll('#testResults .status').forEach(el => {
+                el.className = `status ${statusClass}`;
+            });
+        }
+
+        // Initialize and monitor
+        window.addEventListener('resize', updateTestResults);
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTestResults();
+            updateStatus('Mobile menu test ready');
+        });
+
+        // Update test results every second
+        setInterval(updateTestResults, 1000);
+    </script>
+</body>
+</html>

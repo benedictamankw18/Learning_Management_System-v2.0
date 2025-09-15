@@ -1,0 +1,492 @@
+/*
+==============================================
+RESPONSIVE DESIGN ENHANCEMENTS FOR ADMIN LMS
+==============================================
+Additional CSS enhancements for better responsive behavior
+Apply these styles alongside AdminMaster.css
+*/
+
+/* Enhanced Mobile Navigation */
+@media (max-width: 768px) {
+    /* Mobile Header Adjustments */
+    .header-content {
+        padding: 8px 15px;
+        gap: 10px;
+    }
+    
+    .header-logo img {
+        height: 40px;
+    }
+    
+    .logo-text {
+        display: none;
+    }
+    
+    /* Mobile Search - Hidden by default, can be toggled */
+    .header-Search {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--gray-200);
+    }
+    
+    .header-Search.mobile-active {
+        display: block;
+    }
+    
+    /* Mobile User Profile */
+    .profile-username {
+        display: none;
+    }
+    
+    .user-icon img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    /* Mobile Sidebar */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 100%;
+        max-width: 300px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    /* Mobile Content */
+    .wholepage {
+        margin-left: 0;
+        padding: 15px;
+        padding-top: 20px;
+    }
+    
+    /* Mobile Tables */
+    .table-responsive {
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+    }
+    
+    .table {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+    
+    .table td, .table th {
+        padding: 8px;
+        white-space: nowrap;
+    }
+    
+    /* Mobile Buttons */
+    .btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-group {
+        flex-wrap: wrap;
+    }
+    
+    .btn-group .btn {
+        margin-bottom: 5px;
+    }
+    
+    /* Mobile Cards */
+    .test-card, .card {
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    
+    /* Mobile Modals */
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .modal-content {
+        border-radius: 8px;
+    }
+    
+    /* Mobile Footer */
+    footer {
+        padding: 15px 0;
+        font-size: 0.8rem;
+    }
+    
+    footer .small {
+        font-size: 0.75rem;
+    }
+    
+    footer a {
+        display: block;
+        margin: 5px 0;
+    }
+}
+
+/* Tablet Specific Enhancements */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .header-content {
+        padding: 10px 20px;
+    }
+    
+    .header-logo img {
+        height: 50px;
+    }
+    
+    .header-Search {
+        max-width: 400px;
+    }
+    
+    .sidebar {
+        width: 250px;
+    }
+    
+    .sidebar.collapsed {
+        width: 70px;
+    }
+    
+    .wholepage {
+        margin-left: 250px;
+        padding: 20px;
+    }
+    
+    .sidebar.collapsed + .wholepage {
+        margin-left: 70px;
+    }
+    
+    .test-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+/* Large Desktop Enhancements */
+@media (min-width: 1400px) {
+    .header-content {
+        padding: 15px 30px;
+    }
+    
+    .header-Search {
+        max-width: 600px;
+    }
+    
+    .sidebar {
+        width: 320px;
+    }
+    
+    .wholepage {
+        margin-left: 320px;
+        padding: 40px;
+    }
+    
+    .test-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+    
+    .container-fluid {
+        max-width: 1800px;
+        margin: 0 auto;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    .menu-item {
+        padding: 18px 20px;
+        margin-bottom: 12px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .search-icon {
+        width: 50px;
+        height: 45px;
+    }
+    
+    .user-icon {
+        padding: 12px 15px;
+    }
+    
+    /* Remove hover effects for touch devices */
+    .menu-item:hover,
+    .btn:hover,
+    .user-icon:hover {
+        transform: none;
+    }
+    
+    /* Add touch feedback */
+    .menu-item:active,
+    .btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .sidebar,
+    .mobile-overlay,
+    .loading-overlay,
+    .theme-toggle,
+    .btn,
+    .nav-bar-toggle {
+        display: none !important;
+    }
+    
+    .wholepage {
+        margin-left: 0;
+        padding: 0;
+    }
+    
+    .test-card,
+    .card {
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+    }
+    
+    .table {
+        font-size: 0.8rem;
+    }
+    
+    .table td,
+    .table th {
+        padding: 6px;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-blue: #0066cc;
+        --success-green: #006600;
+        --warning-orange: #cc6600;
+        --danger-red: #cc0000;
+        --gray-800: #000000;
+        --gray-600: #333333;
+        --gray-400: #666666;
+        --gray-200: #cccccc;
+        --white: #ffffff;
+    }
+    
+    .test-card,
+    .card {
+        border-width: 2px;
+    }
+    
+    .btn {
+        border-width: 2px;
+        font-weight: 600;
+    }
+    
+    .table {
+        border-width: 2px;
+    }
+    
+    .table td,
+    .table th {
+        border-width: 1px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .loading-spinner {
+        animation: none;
+        border: 4px solid var(--primary-blue);
+        border-radius: 50%;
+    }
+}
+
+/* Dark Theme Responsive Adjustments */
+.dark-theme .test-card,
+.dark-theme .card {
+    background: var(--dark-card);
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+.dark-theme .table {
+    color: var(--dark-text);
+}
+
+.dark-theme .modal-content {
+    background: var(--dark-card);
+    color: var(--dark-text);
+}
+
+.dark-theme .btn-outline-primary,
+.dark-theme .btn-outline-success,
+.dark-theme .btn-outline-info,
+.dark-theme .btn-outline-secondary,
+.dark-theme .btn-outline-dark {
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+/* Utility Classes for Responsive Design */
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-hide {
+        display: none !important;
+    }
+    
+    .mobile-center {
+        text-align: center;
+    }
+    
+    .mobile-full-width {
+        width: 100% !important;
+    }
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+    h1, .h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2, .h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3, .h3 {
+        font-size: 1.25rem;
+    }
+    
+    h4, .h4 {
+        font-size: 1.1rem;
+    }
+    
+    h5, .h5 {
+        font-size: 1rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    .small,
+    small {
+        font-size: 0.8rem;
+    }
+}
+
+/* Responsive Spacing */
+@media (max-width: 768px) {
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+    
+    .mt-5 {
+        margin-top: 2rem !important;
+    }
+    
+    .pt-4 {
+        padding-top: 1.5rem !important;
+    }
+    
+    .container-fluid {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* Loading States for Mobile */
+@media (max-width: 768px) {
+    .loading-overlay {
+        background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 3px;
+    }
+}
+
+/* Accessibility Improvements */
+@media (max-width: 768px) {
+    /* Larger focus indicators for mobile */
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus,
+    a:focus {
+        outline: 3px solid var(--primary-blue);
+        outline-offset: 2px;
+    }
+    
+    /* Ensure minimum touch target size */
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    .btn,
+    a[role="button"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Custom Scrollbar for Mobile */
+@media (max-width: 768px) {
+    .table-responsive::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-track {
+        background: var(--gray-200);
+        border-radius: 4px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: var(--primary-blue);
+        border-radius: 4px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+}
